@@ -1,0 +1,83 @@
+/* Neobrutalist Variables */
+:root {
+  --color-bg: #fffbf0; /* Warm off-white */
+  --color-text: #1a1a1a;
+
+  /* Palette as requested */
+  --color-primary: #ff6b00; /* Orange */
+  --color-primary-light: #ff9e56;
+
+  --color-secondary: #ff0080; /* Pink */
+  --color-secondary-light: #ff80bf;
+
+  --color-tertiary: #ccff00; /* Lime Green */
+  --color-tertiary-light: #e5ff80;
+
+  --color-quaternary: #00ffff; /* Cyan */
+  --color-quaternary-light: #ccffff;
+
+  --color-border: #000000;
+  --border-width: 3px;
+  --shadow-offset: 4px;
+
+  --font-heading: 'Impact', 'Arial Black', sans-serif; /* Bold! */
+  --font-body: 'Courier New', monospace; /* Brutalist feel */
+}
+
+/* Dark Mode Overrides */
+html.dark-mode {
+  --color-bg: #1a1a1a;
+  --color-text: #ffffff;
+  --color-border: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Reset buttons */
+button {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Neobrutalist Utility Classes */
+.neo-box {
+  background: white;
+  border: var(--border-width) solid var(--color-border);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--color-border);
+  padding: 1rem;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.neo-box:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+.neo-button {
+  background: var(--color-primary);
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: var(--border-width) solid var(--color-border);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--color-border);
+  padding: 0.5rem 1rem;
+  display: inline-block;
+}
+
+.neo-button:hover {
+  background: var(--color-primary-light);
+}
+
+.neo-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+/* Utility to ensure Bulma doesn't override our brutalist borders too soft */

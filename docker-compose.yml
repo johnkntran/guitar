@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:80"
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /app/backend
+        - action: sync
+          path: ./frontend/dist
+          target: /app/backend/static
+    environment:
+      - ENVIRONMENT=production
