@@ -30,6 +30,7 @@ export const useGuitarStore = defineStore('guitar', () => {
     const currentChord = ref<ChordResult | null>(null)
     const isDarkMode = ref(false)
     const reverseLookupMode = ref(false)
+    const targetNotes = ref<string[]>([])
 
     // Computed
     const selectedNotes = computed(() => {
@@ -123,24 +124,22 @@ export const useGuitarStore = defineStore('guitar', () => {
         try {
             const res = await fetch(`/api/chord/${encodeURIComponent(chordName)}`)
             if (!res.ok) return
-            /*
             const data = await res.json()
             const notes: string[] = data.notes // e.g. ['C', 'E', 'G']
-            ^ Unused var "notes"
-            */
-
-            // We need to place these notes on the fretboard.
-            // This is non-trivial without a "solver".
-            // The prompt says: "see the silhouetted fret positions of the notes that make up that chord"
-            // It implies showing ALL positions? Or a specific shape?
-            // "silhouetted fret positions of the notes that make up that chord (G# B D F for example)"
-            // This sounds like highlighting ALL G#, B, D, F instances on the board.
 
             reverseLookupMode.value = true
-            // We will use a special property or just highlight them visually in the component
-            // But store needs to know "Target Notes".
-            // Let's overload selectedPositions? No, that implies specific frets.
-            // We need a "highlightedNotes" set for reverse lookup.
+            // Clear existing selection?
+            selectedPositions.value = []
+
+            // We need to tell the component which notes to highlight.
+            // We can reuse selectedPositions if we want them to appear "selected" (solid color).
+            // But prompt says "silhouetted" (watermarked).
+            // And "Reverse Lookup" means we show ALL positions.
+            // So we shouldn't populate selectedPositions (which implies specific fret/string coords).
+            // instead we need a way to say "Highlight all Cs, Es, Gs".
+
+            // Let's add a state for targetNotes
+            targetNotes.value = notes
         } catch (e) {
             console.error(e)
         }
@@ -169,6 +168,7 @@ export const useGuitarStore = defineStore('guitar', () => {
         isDarkMode,
         toggleTheme,
         reverseLookup,
-        reverseLookupMode
+        reverseLookupMode,
+        targetNotes
     }
 })

@@ -39,9 +39,14 @@ function getNoteMeta(stringIdx: number, fret: number) {
 
     const isSelected = !!selected
 
-    // Find if this note is relevant (selected elsewhere)
-    const relevantSelection = store.selectedPositions.find(p => p.note === noteName)
-    const isWatermarked = !isSelected && !!relevantSelection
+    // Find if this note is relevant (selected elsewhere) OR in targetNotes (reverse lookup)
+    let isWatermarked = false
+    if (store.reverseLookupMode) {
+        isWatermarked = store.targetNotes.includes(noteName)
+    } else {
+        const relevantSelection = store.selectedPositions.find(p => p.note === noteName)
+        isWatermarked = !isSelected && !!relevantSelection
+    }
 
     // Determine color
     let color = 'transparent'
@@ -49,7 +54,11 @@ function getNoteMeta(stringIdx: number, fret: number) {
 
     if (isSelected || isWatermarked) {
         // Find distinct notes from selection to assign consistent color
-        const distinctNotes = [...new Set(store.selectedPositions.map(p => p.note))]
+        let distinctNotes = [...new Set(store.selectedPositions.map(p => p.note))]
+        if (store.reverseLookupMode) {
+            distinctNotes = store.targetNotes
+        }
+
         const colorIdx = distinctNotes.indexOf(noteName)
         if (colorIdx !== -1) {
             color = NOTE_COLORS[colorIdx % NOTE_COLORS.length] || 'transparent'
