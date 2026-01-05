@@ -2,7 +2,7 @@
     "name": "Guitar Chord App",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "app",
-    "workspaceFolder": "/code",
+    "workspaceFolder": "/app",
     "features": {
         "ghcr.io/devcontainers/features/azure-cli:1": {},
         "ghcr.io/devcontainers/features/python:1": {},
