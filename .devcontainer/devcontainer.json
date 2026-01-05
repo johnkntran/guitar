@@ -20,5 +20,5 @@
     "forwardPorts": [
         8000
     ],
-    "postCreateCommand": "echo 'Hello, guitarist!'"
+    "postCreateCommand": "cd frontend && pnpm install && pnpm run build"
 }

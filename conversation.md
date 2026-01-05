@@ -298,3 +298,19 @@ I have also verified the fix by running a fresh pnpm run build to ensure the log
 The reverse lookup should now be working perfectly! Let me know if everything looks good on your end.
 
 ----------------------------------------------------------------------
+
+> The reverse lookup works perfectly now and the app works swimmingly! There's an annoyance with the Docker and Dev Container build developer experience now. Let me explain... every time I rebuild and relaunch the Dev Container, the `pnpm run build` process doesn't run and I'm stuck with the outdated build artifacts that don't reflect the latest frontend code changes. My suspicion is that it has to do with the multi-stage build process in the Dockerfile. The build artifacts from the first stage are getting cached in Docker's build cache. I've deduced this because even when I run `docker rmi <guitar-app image ID>` to nuke this app's image, the cached layers remain and don't trigger a frontend rebuild. So what are our options here? Should we retain the multi-stage build architecture but tweak it somehow? Or are multi-stage builds just not workable and we need to find a base Docker image with both Python+UV and Node.js+PNPM to run all the necessary build steps upfront?
+
+I've overhauled the Docker configuration to solve the build caching and volume shadowing issues.
+
+The Solution: Unified Dev Image You were spot on about the multi-stage build issues. For a Dev Container where you bind-mount your source code, multi-stage builds often hide their generated artifacts under the volume mount. I have switched to a single-stage Dockerfile that installs both Python and Node.js (plus pnpm).
+
+Changes:
+
+Dockerfile: Now starts with Python 3.12, installs Node.js v20 & pnpm, and sets up both environments in one image.
+Dev Container: Updated postCreateCommand to run cd frontend && pnpm install && pnpm run build automatically when you create/rebuild the container.
+Benefits:
+
+No Stale Artifacts: Since the build happens after the container starts (via postCreateCommand or manual run), it writes directly to your mounted volume, updating the files you actually see.
+Full Tooling: You now have pnpm, node, python, and uv all available in the unified terminal. You can run pnpm run build manually anytime inside the VS Code terminal.
+You may now rebuild your Dev Container, and it should work seamlessly!
