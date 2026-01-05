@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install pnpm and Node.js (LTS) via pnpm env
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+ENV SHELL="/bin/bash"
 
 RUN curl -fsSL https://get.pnpm.io/install.sh | sh - \
     && pnpm env use --global lts
