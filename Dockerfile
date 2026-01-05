@@ -1,5 +1,5 @@
 # Stage 1: Build Frontend
-FROM node:20-slim AS frontend-builder
+FROM node:24.12.0-bookworm-slim AS frontend-builder
 
 # Install pnpm
 RUN npm install -g pnpm
