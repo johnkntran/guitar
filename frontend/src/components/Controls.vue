@@ -49,7 +49,7 @@ function handleReset() {
     gap: 2rem;
     align-items: flex-end;
     flex-wrap: wrap;
-    background: white;
+    background: var(--color-box);
 }
 
 .control-group {
@@ -66,7 +66,7 @@ function handleReset() {
 .select-wrapper {
     position: relative;
     border: var(--border-width) solid var(--color-border);
-    background: white;
+    background: var(--color-box);
     box-shadow: 4px 4px 0 var(--color-border);
 
     select {

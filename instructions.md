@@ -239,3 +239,23 @@ This meant Fret 1 (F, A#, etc.) was being drawn exactly on top of the Nut/Open p
 I have corrected the formula to 60 + (f-1) * 60 + 30, which places Fret 1 at 90 (centered between the nut at 60 and the first fret wire at 120), effectively shifting the fretboard "down" visually to where it belongs.
 
 I've updated the positioning for the note circles, note text, and fret numbers. The notes at the nut should now correctly reflect Standard Tuning (E A D G B E).
+
+----------------------------------------------------------------------
+
+> Great work! There are some UI improvements that can be made on Dark Mode. See the attached [image](./extras/ui_issues.png). Firstly, the contrast between the lime green background and the white text is incredibly hard to see. Secondly, the chords text listed in the alternative chord section ("Also: G# Diminished 7thD Diminished 7thF Diminished 7th") bleed into each other without a clear separator between the chords. Thirdly, the "Select a chord.." drop-down element is lacking a clear border to distinguish it from the background; light mode shows a visible border and drop-shadow that makes it visibly pop. Can you address these three concerns?
+
+----------------------------------------------------------------------
+
+I have addressed all the UI issues:
+
+Contrast on Lime Background: I forced the text color to black (#000000) for the result box (.result) in
+
+App.vue
+. This ensures that even in dark mode (where default text is white), the text on the bright lime green background remains readable.
+Alternative Chord Separators: I updated the v-for loop in
+
+App.vue
+ to insert a comma separator between alternative chord names.
+Dropdown Border in Dark Mode: I introduced a new CSS variable --color-box which is white in light mode and a dark grey (#2a2a2a) in dark mode. I applied this variable to the .neo-box, .controls, and .select-wrapper backgrounds. This ensures that in dark mode, the white border (--color-border) is visible against the dark background of the input box, satisfying the "clear border" requirement.
+These changes should make the Dark Mode consistent and usable! Make sure to rebuild your frontend assets (pnpm run build or let Docker do it) to see the changes.
+

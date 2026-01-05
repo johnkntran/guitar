@@ -26,7 +26,9 @@ const store = useGuitarStore()
         <div class="neo-box result" v-if="store.currentChord?.found">
             <h2>{{ store.currentChord.primary?.name }}</h2>
             <p v-if="store.currentChord.alternatives?.length">
-                Also: <span v-for="alt in store.currentChord.alternatives">{{ alt.name }} </span>
+                Also: <span v-for="(alt, index) in store.currentChord.alternatives" :key="alt.name">
+                    {{ alt.name }}{{ index < store.currentChord.alternatives.length - 1 ? ', ' : '' }}
+                </span>
             </p>
         </div>
         <div class="neo-box result warning" v-else-if="store.currentChord?.found === false">
@@ -74,10 +76,11 @@ const store = useGuitarStore()
     margin-top: 2rem;
     .result {
         background: var(--color-tertiary);
+        color: #000000; /* Always black text on bright colors */
         h2 { margin: 0; font-size: 2rem; font-family: var(--font-heading); }
         &.warning {
             background: var(--color-secondary);
-            color: white;
+            color: white; /* Pink bg can have white text, or black. Prompt said "Lime green... hard to see". Pink+White is usually ok-ish but Pink+Black is standard brutalist. User didn't complain about warning box yet, but let's stick to user request for now. */
         }
     }
 }

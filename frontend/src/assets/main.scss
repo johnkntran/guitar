@@ -1,27 +1,34 @@
 /* Neobrutalist Variables */
 :root {
-  --color-bg: #fffbf0; /* Warm off-white */
+  --color-bg: #fffbf0;
+  /* Warm off-white */
   --color-text: #1a1a1a;
 
   /* Palette as requested */
-  --color-primary: #ff6b00; /* Orange */
+  --color-primary: #ff6b00;
+  /* Orange */
   --color-primary-light: #ff9e56;
 
-  --color-secondary: #ff0080; /* Pink */
+  --color-secondary: #ff0080;
+  /* Pink */
   --color-secondary-light: #ff80bf;
 
-  --color-tertiary: #ccff00; /* Lime Green */
+  --color-tertiary: #ccff00;
+  /* Lime Green */
   --color-tertiary-light: #e5ff80;
 
-  --color-quaternary: #00ffff; /* Cyan */
+  --color-quaternary: #00ffff;
+  /* Cyan */
   --color-quaternary-light: #ccffff;
 
   --color-border: #000000;
   --border-width: 3px;
   --shadow-offset: 4px;
 
-  --font-heading: 'Impact', 'Arial Black', sans-serif; /* Bold! */
-  --font-body: 'Courier New', monospace; /* Brutalist feel */
+  --font-heading: 'Impact', 'Arial Black', sans-serif;
+  /* Bold! */
+  --font-body: 'Courier New', monospace;
+  /* Brutalist feel */
 }
 
 /* Dark Mode Overrides */
@@ -29,6 +36,12 @@ html.dark-mode {
   --color-bg: #1a1a1a;
   --color-text: #ffffff;
   --color-border: #ffffff;
+  --color-box: #2a2a2a;
+  /* Darker box for dark mode */
+}
+
+:root {
+  --color-box: #ffffff;
 }
 
 body {
@@ -48,7 +61,7 @@ button {
 
 /* Neobrutalist Utility Classes */
 .neo-box {
-  background: white;
+  background: var(--color-box);
   border: var(--border-width) solid var(--color-border);
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--color-border);
   padding: 1rem;
