@@ -222,3 +222,20 @@ guitar.ts
 I verified the fix by running pnpm run build in the frontend directory, and it now compiles successfully. You should be able to restart or rebuild your Dev Container without issues.
 
 Let me know if you run into anything else!
+
+----------------------------------------------------------------------
+
+> This looks amazing! However there is one small error - see attached [image](./extras/fretboard_displacement_error.png). Standard tuning on a guitar starts at [E A D G B E] at the guitar nut. This app has offset the notes at the nut to start at [F A# D# G# C F]. Can we transpose the fretboard notes down a half step?
+
+Good catch! The issue was in the SVG math for positioning the notes.
+
+I had 60 + (f-1) * 60 - 30 for frets > 0. For Fret 1
+
+(f=1)
+, this calculated to 60 + 0 - 30 = 30. The Nut (Open string, f=0) is also drawn at 30.
+
+This meant Fret 1 (F, A#, etc.) was being drawn exactly on top of the Nut/Open position (E, A, etc.), making it look like the open strings were tuned up a half-step.
+
+I have corrected the formula to 60 + (f-1) * 60 + 30, which places Fret 1 at 90 (centered between the nut at 60 and the first fret wire at 120), effectively shifting the fretboard "down" visually to where it belongs.
+
+I've updated the positioning for the note circles, note text, and fret numbers. The notes at the nut should now correctly reflect Standard Tuning (E A D G B E).

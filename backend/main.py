@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 import os
-from .chords import identify_chord, get_chord_notes, NOTES, CHORD_DEFINITIONS
+from chords import identify_chord, get_chord_notes, NOTES, CHORD_DEFINITIONS
 
 app = FastAPI()
 

@@ -108,7 +108,7 @@ function isStringMuted(stringIdx: number) {
             />
             <!-- Fret Numbers -->
              <text v-if="[3,5,7,9,12,15].includes(f)"
-                :x="60 + (f-1) * 60 - 30"
+                :x="60 + (f-1) * 60 + 30"
                 y="235"
                 text-anchor="middle"
                 font-family="monospace"
@@ -145,7 +145,7 @@ function isStringMuted(stringIdx: number) {
                      Frets -> centered in fret space
                 -->
                 <circle
-                    :cx="f === 0 ? 30 : 60 + (f-1) * 60 - 30"
+                    :cx="f === 0 ? 30 : 60 + (f-1) * 60 + 30"
                     :cy="30 + i * 32"
                     r="14"
                     :fill="getNoteMeta(sIdx, f).color"
@@ -159,7 +159,7 @@ function isStringMuted(stringIdx: number) {
                 <!-- Note Name (only if selected or watermarked) -->
                 <text
                     v-if="getNoteMeta(sIdx, f).isSelected || getNoteMeta(sIdx, f).isWatermarked"
-                    :x="f === 0 ? 30 : 60 + (f-1) * 60 - 30"
+                    :x="f === 0 ? 30 : 60 + (f-1) * 60 + 30"
                     :y="30 + i * 32 + 5"
                     text-anchor="middle"
                     fill="black"
