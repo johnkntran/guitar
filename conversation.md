@@ -301,6 +301,28 @@ The reverse lookup should now be working perfectly! Let me know if everything lo
 
 > The reverse lookup works perfectly now and the app works swimmingly! There's an annoyance with the Docker and Dev Container build developer experience now. Let me explain... every time I rebuild and relaunch the Dev Container, the `pnpm run build` process doesn't run and I'm stuck with the outdated build artifacts that don't reflect the latest frontend code changes. My suspicion is that it has to do with the multi-stage build process in the Dockerfile. The build artifacts from the first stage are getting cached in Docker's build cache. I've deduced this because even when I run `docker rmi <guitar-app image ID>` to nuke this app's image, the cached layers remain and don't trigger a frontend rebuild. So what are our options here? Should we retain the multi-stage build architecture but tweak it somehow? Or are multi-stage builds just not workable and we need to find a base Docker image with both Python+UV and Node.js+PNPM to run all the necessary build steps upfront?
 
+Integrating Devcontainer Power
+
+I'm now focusing on leveraging the streamlined Dockerfile in the devcontainer.json. Utilizing postCreateCommand is key, especially since volume mounts will likely shadow built assets. By running the frontend build in postCreateCommand, I ensure the updated assets are always available, regardless of volume interactions. This maintains a robust and consistent development environment.
+
+Clarifying Build Strategy
+
+I'm solidifying the build logic for the development container. The postCreateCommand now includes a robust pnpm install step. This ensures dependencies are present even if node_modules is bind-mounted. The user's query about multi-stage builds sparked a clarification: this streamlined approach is ideal for Dev Containers, offering immediate setup and direct build control within the container.
+
+Revising Container Architecture
+
+I've taken your advice on a unified 'Dev' image, moving the Dockerfile to a single-stage build combining Python and Node.js. This simplifies the setup, especially since the code is mounted. Now I'm updating devcontainer.json to reflect this architectural shift, streamlining the configuration for immediate development.
+
+Revising Development Setup
+
+I've just finished a major refactor, consolidating the build process into a single-stage Dockerfile that supports both Python and Node.js. I also integrated automatic builds directly within the devcontainer.json configuration. My next step will be to update the documentation.
+
+Analyzing Production Image Size
+
+My focus has shifted to clarifying the implications of the consolidated image. While the production image is inevitably larger due to the inclusion of Node.js and build tools, this is a trade-off I'm comfortable with. To preemptively address any concerns, I'll add a note in instructions.md explicitly detailing this size consideration. I also verified the correct build context in docker-compose.yml to maintain dev integrity, and confirmed the mount/WORKDIR relationship allows for development workflow.
+
+Summary:
+
 I've overhauled the Docker configuration to solve the build caching and volume shadowing issues.
 
 The Solution: Unified Dev Image You were spot on about the multi-stage build issues. For a Dev Container where you bind-mount your source code, multi-stage builds often hide their generated artifacts under the volume mount. I have switched to a single-stage Dockerfile that installs both Python and Node.js (plus pnpm).
@@ -314,3 +336,64 @@ Benefits:
 No Stale Artifacts: Since the build happens after the container starts (via postCreateCommand or manual run), it writes directly to your mounted volume, updating the files you actually see.
 Full Tooling: You now have pnpm, node, python, and uv all available in the unified terminal. You can run pnpm run build manually anytime inside the VS Code terminal.
 You may now rebuild your Dev Container, and it should work seamlessly!
+
+----------------------------------------------------------------------
+
+> The build process DevEx looks incredible, thank you! I can't help but notice though that the installation steps for Node.js and PNPM seem a little heavy-handed.
+
+```
+# Install system dependencies
+# curl/ca-certificates/gnupg for NodeSource
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    gnupg \
+    git \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js (LTS v20)
+RUN mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update \
+    && apt-get install -y nodejs \
+    && npm install -g pnpm
+```
+
+Currently the latest LTS version of Node.js is version 24.12.0 (not 20). Also, looking at the official [pnpm installation](https://pnpm.io/installation) and [pnpm env](https://pnpm.io/cli/env) docs, I think we can install `pnpm` by simply running `curl -fsSL https://get.pnpm.io/install.sh | sh -`, then install an appropriate accompanying Node.js version by issueing `pnpm env use --global lts`. Using the "lts" tag immunizes us against a specific Node.js version (20 in your case, 24 in my case) drifting off long-term support as time goes on. What do you think of this approach? A lot simpler? Am I missing something?
+
+----------------------------------------------------------------------
+
+I completely agree with your suggestion! Using the standalone pnpm installation script and pnpm env to manage Node.js is much cleaner and more maintainable than wrestling with apt keys and repositories.
+
+I've updated the Implementation Plan to reflect this change:
+
+Dockerfile Update: We'll replace the manual NodeSource setup with:
+curl the pnpm install script.
+pnpm env use --global lts to install the latest Long Term Support version of Node.js.
+Ensure PNPM_HOME is correctly set in the path so the container can find the tools.
+This will keep our Dockerfile concise and our Node version automatically up-to-date with LTS standards.
+
+Ready to apply this optimization?
+
+I've streamlined the Dockerfile installation process. I've removed the apt-get and nodesource steps. Now, pnpm is installed via a standalone script and configured as the primary package manager. I've also implemented pnpm env use --global lts for Node.js. My focus is on ensuring a clean and efficient setup.
+
+I've optimized the Dockerfile as requested!
+
+Changes Completed:
+
+1. Removed Apt-based NodeSource: Removed the complex apt repository setup for Node.js.
+
+2. Implemented PNPM Env: Swapped to the standalone pnpm install script:
+
+```
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN curl -fsSL https://get.pnpm.io/install.sh | sh - \
+    && pnpm env use --global lts
+```
+
+This approach is indeed much cleaner, decouples the Node version from the base OS repositories, and ensures we're always pulling the latest LTS version unless specified otherwise.
+
+You're all set to rebuild your container with the leaner setup!

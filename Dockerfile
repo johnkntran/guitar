@@ -3,7 +3,6 @@ FROM python:3.12-slim-bookworm
 WORKDIR /app
 
 # Install system dependencies
-# curl/ca-certificates/gnupg for NodeSource
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
@@ -12,13 +11,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     vim \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js (LTS v20)
-RUN mkdir -p /etc/apt/keyrings \
-    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
-    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
-    && apt-get update \
-    && apt-get install -y nodejs \
-    && npm install -g pnpm
+# Install pnpm and Node.js (LTS) via pnpm env
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN curl -fsSL https://get.pnpm.io/install.sh | sh - \
+    && pnpm env use --global lts
 
 # Install uv
 RUN pip install uv
