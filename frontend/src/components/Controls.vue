@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGuitarStore } from '../stores/guitar'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 const store = useGuitarStore()
 const availableChords = ref<string[]>([])
@@ -14,6 +14,20 @@ onMounted(async () => {
   } catch (e) {
     console.error(e)
   }
+})
+
+// Sync dropdown with identified chord
+watch(() => store.currentChord, (newVal) => {
+    if (newVal?.found && newVal.primary) {
+        // Try to find exact match in available chords
+        // The backend returns names like "C Major", which should match exactly
+        if (availableChords.value.includes(newVal.primary.name)) {
+            selectedChordName.value = newVal.primary.name
+        }
+    } else if (newVal === null) {
+        // Reset or no chord
+        selectedChordName.value = ''
+    }
 })
 
 function handleReverseLookup() {
