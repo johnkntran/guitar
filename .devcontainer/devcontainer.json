@@ -4,9 +4,9 @@
     "service": "app",
     "workspaceFolder": "/app",
     "features": {
-        "ghcr.io/devcontainers/features/azure-cli:1": {},
-        "ghcr.io/devcontainers/features/python:1": {},
-        "ghcr.io/devcontainers/features/node:1": {}
+        // "ghcr.io/devcontainers/features/azure-cli:1": {},
+        // "ghcr.io/devcontainers/features/python:1": {},
+        // "ghcr.io/devcontainers/features/node:1": {}
     },
     "customizations": {
         "vscode": {
