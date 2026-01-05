@@ -72,11 +72,11 @@ export const useGuitarStore = defineStore('guitar', () => {
 
             // Calculate note name
             // String open note
-            const openNoteName = STRINGS[stringIdx]
+            const openNoteName = STRINGS[stringIdx] || 'E'
             const openNoteIdx = CHROMATIC.indexOf(openNoteName)
             // fret offset
             const noteIdx = (openNoteIdx + fretIdx) % 12
-            const noteName = CHROMATIC[noteIdx]
+            const noteName = CHROMATIC[noteIdx] || 'C'
 
             selectedPositions.value.push({
                 string: stringIdx,
@@ -123,8 +123,11 @@ export const useGuitarStore = defineStore('guitar', () => {
         try {
             const res = await fetch(`/api/chord/${encodeURIComponent(chordName)}`)
             if (!res.ok) return
+            /*
             const data = await res.json()
             const notes: string[] = data.notes // e.g. ['C', 'E', 'G']
+            ^ Unused var "notes"
+            */
 
             // We need to place these notes on the fretboard.
             // This is non-trivial without a "solver".

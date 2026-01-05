@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useGuitarStore } from '../stores/guitar'
-import { computed } from 'vue'
+
 
 const store = useGuitarStore()
 
 // 6 Strings, 15 Frets
-const STRINGS = ['E', 'A', 'D', 'G', 'B', 'E'].reverse() // Display High E at top effectively?
+/* const STRINGS = ['E', 'A', 'D', 'G', 'B', 'E'].reverse() // Display High E at top effectively? */
 // Actually standard guitar tabs/charts usually have High E at top (String 1).
 // Low E at bottom (String 6).
 // Array index 0 in store is Low E.
@@ -32,10 +32,10 @@ function getNoteMeta(stringIdx: number, fret: number) {
     // Logic duped from store, maybe should be shared helper.
     const chromatic = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     const openNotes = ['E', 'A', 'D', 'G', 'B', 'E']
-    const openNoteName = openNotes[stringIdx]
+    const openNoteName = openNotes[stringIdx] || 'E'
     const openNoteIdx = chromatic.indexOf(openNoteName)
     const noteIdx = (openNoteIdx + fret) % 12
-    const noteName = chromatic[noteIdx]
+    const noteName = chromatic[noteIdx] || 'C'
 
     const isSelected = !!selected
 
@@ -52,7 +52,7 @@ function getNoteMeta(stringIdx: number, fret: number) {
         const distinctNotes = [...new Set(store.selectedPositions.map(p => p.note))]
         const colorIdx = distinctNotes.indexOf(noteName)
         if (colorIdx !== -1) {
-            color = NOTE_COLORS[colorIdx % NOTE_COLORS.length]
+            color = NOTE_COLORS[colorIdx % NOTE_COLORS.length] || 'transparent'
         }
 
         if (isWatermarked) {
