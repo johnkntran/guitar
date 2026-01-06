@@ -455,3 +455,31 @@ I've successfully rebuilt the frontend, so you can test the new navigation and c
 
 ----------------------------------------------------------------------
 
+Let's see if we can implement the business logic of the Tuner frontend view. The UI and functionality should resemble an old-school chromatic tuner with a needle. The view should first enable the browser to utilize the device's built-in microphone. Once the microphone is enabled, the user will pluck a string on his/her guitar and the app should use the mic to discern the amount of hertz for the sound from the plucked string. Given that plucked string's hertz value, the needle should move and inform the user of sound's hertz value and the closest official musical note to that sound. This almost certainly involves wiring up some backend logic to accept a hertz value from the frontend and return the name of the closest musical note (and that note's official hertz value, along with information for the musical notes proximal to it). I've attached an [image](./extras/guitar_tuner.png) to help illustrate the functional elements of this page. And if there's any clarification you need, let me know!
+
+----------------------------------------------------------------------
+
+I'm now focusing on implementing the "Tuner" functionality within the TunerView.vue component. My primary concern is the frontend. I need to utilize the Web Audio API to enable microphone access. Once I get the audio stream, I'll analyze it to determine the pitch in Hertz. I'm keen to get this working!
+
+I'm now reconsidering the backend interaction. Initially, I thought about every frame being a network request, but now I'm aware that's bad. I'll stick to the user's request and implement an endpoint for Hz-to-note conversion. I'm going for a hybrid approach: the frontend's AudioContext gets the pitch (Hz) and then maybe queries a reference table or implements the logic there, to avoid excessive API calls and latency.
+
+I'm now thinking about the Hz-to-note conversion. It's really just basic math; that's good news. I can definitely implement the Python endpoint as requested. Although, I'll probably also add a warning about potential latency. Maybe I'll suggest caching or sparing use, just in case. I'm leaning toward a pragmatic approach and tackling it head-on.
+
+Now I'm focusing on the backend, specifically how it'll handle the Hertz-to-note conversion. I'll stick to a plan that involves implementing a GET /api/tuner/identify?hz=... endpoint, in compliance with the user's prompt. I will add a utility function for pitch-to-note conversion in Python. I'm also considering potential latency, since I can debounce the requests. I also need to make a plan to get pitch from the audio buffer.
+
+I've implemented the Chromatic Tuner!
+
+Backend (backend/analyzer.py & backend/main.py):
+
+- Added logic to convert Hz to Musical Note (e.g., 440Hz -> A4), calculating cents deviation from "perfect" pitch.
+- Exposed /api/tuner/analyze endpoint.
+
+Frontend:
+
+- useAudioAnalyzer.ts: A composable that handles Microphone access (getUserMedia) and performs real-time Autocorrelation on the audio buffer to detect the fundamental frequency (pitch).
+- TunerView.vue: Features an "Old School" needle gauge.
+  - The needle moves based on how many cents sharp or flat the input is.
+  - Displays the Hertz, Cents, and the current Note.
+  - Turns green when you are within ±5 cents of the target note!
+
+I've fixed all build errors and verified the build succeeds. You can now rebuild your container and try tuning your guitar!

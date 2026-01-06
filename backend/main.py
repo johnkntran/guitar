@@ -54,6 +54,15 @@ async def get_chord_composition(chord_name: str):
         raise HTTPException(status_code=404, detail="Chord not found")
     return {"notes": notes}
 
+from analyzer import identify_pitch
+
+@app.get("/api/tuner/analyze")
+async def analyze_pitch(hz: float):
+    result = identify_pitch(hz)
+    if not result:
+         return {"note": None}
+    return result
+
 # Serve static files (Frontend)
 use_static = os.path.isdir("backend/static") or os.path.isdir("static")
 static_dir = "backend/static" if os.path.isdir("backend/static") else "static"
