@@ -36,6 +36,7 @@ CHORD_DEFINITIONS = {
     "Diminished 7th": frozenset([0, 3, 6, 9]),
     "Half-Diminished 7th": frozenset([0, 3, 6, 10]), # m7b5
     "Add9": frozenset([0, 4, 7, 2]), # Treated as 2 for set calculation (mod 12)
+    "Add4": frozenset([0, 4, 5, 7]), # R, 3, 4, 5
     "Minor Add9": frozenset([0, 3, 7, 2]),
     "Major 6th": frozenset([0, 4, 7, 9]),
     "Minor 6th": frozenset([0, 3, 7, 9]),
