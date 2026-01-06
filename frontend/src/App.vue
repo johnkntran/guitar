@@ -1,39 +1,19 @@
 <script setup lang="ts">
-import { useGuitarStore } from './stores/guitar'
-import Fretboard from './components/Fretboard.vue'
-import Controls from './components/Controls.vue'
-
-const store = useGuitarStore()
+import { RouterView, RouterLink } from 'vue-router'
 </script>
 
 <template>
   <div class="app-container">
     <header class="neo-box header">
       <h1>CHORD<br>COORDINATOR</h1>
-
+      <nav class="nav-bar">
+        <RouterLink to="/" class="nav-link" active-class="active">ANALYZER</RouterLink>
+        <RouterLink to="/tuner" class="nav-link" active-class="active">TUNER</RouterLink>
+      </nav>
     </header>
 
     <main>
-      <div class="fretboard-container neo-box">
-        <Fretboard />
-      </div>
-
-      <div class="results-container" v-if="store.currentChord || store.selectedPositions.length > 0">
-        <div class="neo-box result" v-if="store.currentChord?.found">
-            <h2>{{ store.currentChord.primary?.name }}</h2>
-            <p v-if="store.currentChord.alternatives?.length">
-                Also: <span v-for="(alt, index) in store.currentChord.alternatives" :key="alt.name">
-                    {{ alt.name }}{{ index < store.currentChord.alternatives.length - 1 ? ', ' : '' }}
-                </span>
-            </p>
-        </div>
-        <div class="neo-box result warning" v-else-if="store.currentChord?.found === false">
-            <h2>NO CHORD</h2>
-            <p>{{ store.currentChord.message }}</p>
-        </div>
-      </div>
-
-      <Controls />
+      <RouterView />
     </main>
   </div>
 </template>
@@ -53,6 +33,8 @@ const store = useGuitarStore()
   justify-content: space-between;
   align-items: center;
   background: var(--color-quaternary);
+  flex-wrap: wrap; /* Handle mobile */
+  gap: 1rem;
 
   h1 {
     margin: 0;
@@ -63,21 +45,29 @@ const store = useGuitarStore()
   }
 }
 
-.fretboard-container {
-  overflow-x: auto;
-  padding: 2rem 1rem;
+.nav-bar {
+    display: flex;
+    gap: 1rem;
 }
 
-.results-container {
-    margin-top: 2rem;
-    .result {
-        background: var(--color-tertiary);
-        color: #000000; /* Always black text on bright colors */
-        h2 { margin: 0; font-size: 2rem; font-family: var(--font-heading); }
-        &.warning {
-            background: var(--color-secondary);
-            color: white; /* Pink bg can have white text, or black. Prompt said "Lime green... hard to see". Pink+White is usually ok-ish but Pink+Black is standard brutalist. User didn't complain about warning box yet, but let's stick to user request for now. */
-        }
+.nav-link {
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-text);
+    padding: 0.5rem 1rem;
+    border: var(--border-width) solid transparent;
+    transition: all 0.2s;
+
+    &:hover {
+        background: rgba(255,255,255,0.2);
+    }
+
+    &.active {
+        background: var(--color-primary);
+        color: white;
+        border: var(--border-width) solid var(--color-border);
+        box-shadow: 2px 2px 0 var(--color-border);
     }
 }
 </style>
