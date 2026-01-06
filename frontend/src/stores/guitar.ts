@@ -28,7 +28,7 @@ const CHROMATIC = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "
 export const useGuitarStore = defineStore('guitar', () => {
     const selectedPositions = ref<NoteSelection[]>([])
     const currentChord = ref<ChordResult | null>(null)
-    const isDarkMode = ref(false)
+
     const reverseLookupMode = ref(false)
     const targetNotes = ref<string[]>([])
 
@@ -151,22 +151,14 @@ export const useGuitarStore = defineStore('guitar', () => {
         reverseLookupMode.value = false
     }
 
-    function toggleTheme() {
-        isDarkMode.value = !isDarkMode.value
-        if (isDarkMode.value) {
-            document.documentElement.classList.add('dark-mode')
-        } else {
-            document.documentElement.classList.remove('dark-mode')
-        }
-    }
+
 
     return {
         selectedPositions,
         currentChord,
         togglePosition,
         reset,
-        isDarkMode,
-        toggleTheme,
+
         reverseLookup,
         reverseLookupMode,
         targetNotes

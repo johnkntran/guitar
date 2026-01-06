@@ -422,3 +422,17 @@ Renaming:
 
 The app is now officially "Chord Coordinator"! I've updated the display title in the header and the HTML page title.
 I've successfully rebuilt the frontend, so you're ready to go! Rebuild your container or verify on your local server.
+
+----------------------------------------------------------------------
+
+I've removed the Dark Mode functionality entirely for you.
+
+Here's exactly what I did:
+
+1. UI: Removed the "Dark Mode" toggle button from the header in App.vue.
+2. State: Removed the isDarkMode state and toggleTheme action from the Pinia store (guitar.ts).
+3. Styles: Deleted all dark mode CSS overrides from main.scss, so the app will strictly stick to the light/neobrutalist theme you requested originally.
+
+I've also rebuilt the frontend assets, so the changes are ready to go!
+
+----------------------------------------------------------------------

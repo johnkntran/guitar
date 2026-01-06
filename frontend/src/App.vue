@@ -10,11 +10,7 @@ const store = useGuitarStore()
   <div class="app-container">
     <header class="neo-box header">
       <h1>CHORD<br>COORDINATOR</h1>
-      <div class="controls-top">
-        <button @click="store.toggleTheme" class="neo-button theme-toggle">
-          {{ store.isDarkMode ? 'LIGHT' : 'DARK' }} MODE
-        </button>
-      </div>
+
     </header>
 
     <main>
