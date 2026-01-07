@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useAudioAnalyzer } from '../composables/useAudioAnalyzer'
+import { useToneGenerator } from '../composables/useToneGenerator'
 
 const { isListening, currentHz, startListening, stopListening } = useAudioAnalyzer()
+const { playTone, currentToneHz, isPlaying } = useToneGenerator()
 
 interface TunerResult {
     note: string
@@ -15,7 +17,16 @@ interface TunerResult {
 
 const tunerData = ref<TunerResult | null>(null)
 const lastFetch = ref(0)
-const needleAngle = ref(0) // -45 to 45 degrees usually
+const needleAngle = ref(0)
+
+const TUNING_NOTES = [
+    { name: 'E2', hz: 82.41 },
+    { name: 'A2', hz: 110.00 },
+    { name: 'D3', hz: 146.83 },
+    { name: 'G3', hz: 196.00 },
+    { name: 'B3', hz: 246.94 },
+    { name: 'E4', hz: 329.63 }
+]
 
 // Create a throttled/debounced fetch
 watch(currentHz, async (newHz) => {
@@ -103,6 +114,21 @@ function toggleMic() {
             <p>Pluck a string...</p>
         </div>
     </div>
+
+    <div class="manual-tuning">
+        <h3>MANUAL TUNING REFERENCE</h3>
+        <div class="tone-buttons">
+            <button
+                v-for="tone in TUNING_NOTES"
+                :key="tone.name"
+                class="neo-button tone-btn"
+                :class="{ active: isPlaying && currentToneHz === tone.hz }"
+                @click="playTone(tone.hz)"
+            >
+                {{ tone.name }}
+            </button>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -111,6 +137,35 @@ function toggleMic() {
     text-align: center;
     padding: 2rem;
     min-height: 400px;
+}
+
+.manual-tuning {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 4px solid var(--color-border);
+
+    h3 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.tone-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.tone-btn {
+    min-width: 60px;
+
+    &.active {
+        background: var(--color-secondary);
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 var(--color-border);
+    }
 }
 
 .tuner-header {

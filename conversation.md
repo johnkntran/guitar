@@ -485,3 +485,19 @@ Frontend:
 I've fixed all build errors and verified the build succeeds. You can now rebuild your container and try tuning your guitar!
 
 ----------------------------------------------------------------------
+
+In the Tuner view, can you add a section for 6 buttons that when clicked will play the notes E2, A2, D3, G3, B3, and E4 using the device's built-in speaker. These notes corresponding to standard tuning on a guitar and the buttons will allow the user to manually tune his/her guitar by ear. Clicking on each button again should toggle that note's sound on/off.
+
+----------------------------------------------------------------------
+
+Manual Tuning Buttons Implemented!
+
+I've added the reference tone buttons to the Tuner view.
+
+- 6 Buttons: Standard E2, A2, D3, G3, B3, E4.
+- Interactive: Click to play a pure sine wave tone for ear training/tuning. Click again to stop.
+- Safe: Toggling one button automatically stops any other running tone.
+
+The frontend has been rebuilt successfully. You can now use both the microphone tuner and the manual reference tones!
+
+----------------------------------------------------------------------
