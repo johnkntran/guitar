@@ -483,3 +483,5 @@ Frontend:
   - Turns green when you are within ±5 cents of the target note!
 
 I've fixed all build errors and verified the build succeeds. You can now rebuild your container and try tuning your guitar!
+
+----------------------------------------------------------------------

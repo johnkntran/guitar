@@ -1,4 +1,3 @@
-
 # Python
 __pycache__/
 *.py[cod]
@@ -6,14 +5,16 @@ __pycache__/
 venv/
 .venv/
 .env
+build/
+dist/
+wheels/
+*.egg-info
+*.local
 
 # Node
 node_modules/
 dist/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+.pnpm-store/
 
 # MacOS
 .DS_Store
@@ -21,6 +22,11 @@ pnpm-debug.log*
 # IDE
 .vscode/
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Backend specific
 backend/static/
