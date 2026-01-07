@@ -43,7 +43,7 @@ export function useToneGenerator() {
 
         // Create Oscillator
         oscillator = audioContext.value!.createOscillator()
-        oscillator.type = 'sine' // tailored for simple tuning tone
+        oscillator.type = 'sawtooth' // tailored for simple tuning tone
         oscillator.frequency.value = hz
 
         // Create Gain Node (Volume control)

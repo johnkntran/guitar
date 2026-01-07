@@ -20,5 +20,5 @@
     "forwardPorts": [
         8000
     ],
-    "postCreateCommand": "cd frontend && pnpm install && pnpm run build"
+    "postCreateCommand": "cd frontend && pnpm install --force && pnpm run build"
 }
