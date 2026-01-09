@@ -509,3 +509,42 @@ I've added the reference tone buttons to the Tuner view.
 The frontend has been rebuilt successfully. You can now use both the microphone tuner and the manual reference tones!
 
 ----------------------------------------------------------------------
+
+I created an endpoint on the backend at `/api/llm/ask` that allows the frontend app to send a list of messages to an LLM and receive an updated message list with the response of the assistant.
+
+Let's create a new view in the frontend called "Ask Teacher" that consumes this endpoint. The design should be a simple AI conversational interface.
+
+The initial message state should be seeded with the prompt:
+
+```json
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a professor of music theory. Frame your responses in the context of answering a guitar student."
+        }
+    ]
+}
+```
+
+When the user asks a question, a `{"role": "user": "content": "[user's question]"}` entry should be appended to the messages list. When the user clicks the "Ask" button, it will submit the messages list to the backend. The backend returns an updated messages list with an `{"role": "assistant", "content": "[LLM's response]"}` entry.
+
+You should update the frontend's message state only if the response from the AI assistant's message content doesn't start with the word "BadRequestError" which indicates an LLM error. In case of an LLM error, just toast a popup to the user indicating so, and log the LLM error in the console.
+
+----------------------------------------------------------------------
+
+# Gemini 3 Flash
+
+I have successfully implemented the "Teacher" view!
+
+Changes made:
+New View: Created AskTeacherView.vue which provides a simple AI conversational interface.
+Markdown Support: Integrated the marked library to render rich-text theory explanations from the LLM.
+Chat Logic:
+Initializes with the music theory professor system prompt.
+Maintains conversation history and scrolls automatically to the bottom.
+Handles BadRequestError by showing an alert and logging details to the console, without updating the message state.
+Navigation: Added a "TEACHER" link to the main navigation (routing to /ask).
+The frontend has been rebuilt and is ready for use! You can now ask the teacher musical questions about guitar and theory.
+
+----------------------------------------------------------------------

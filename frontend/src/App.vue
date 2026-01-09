@@ -9,6 +9,7 @@ import { RouterView, RouterLink } from 'vue-router'
       <nav class="nav-bar">
         <RouterLink to="/" class="nav-link" active-class="active">ANALYZER</RouterLink>
         <RouterLink to="/tuner" class="nav-link" active-class="active">TUNER</RouterLink>
+        <RouterLink to="/ask" class="nav-link" active-class="active">TEACHER</RouterLink>
       </nav>
     </header>
 
