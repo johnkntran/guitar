@@ -6,7 +6,7 @@ from typing import List, Optional
 import os
 from analyzer import identify_pitch
 from chords import identify_chord, get_chord_notes, NOTES, CHORD_DEFINITIONS
-from llm import ask_teacher
+from llm import ask_llm, Message
 
 app = FastAPI()
 
@@ -30,6 +30,9 @@ class ChordResponse(BaseModel):
 
 class NamedChordRequest(BaseModel):
     chord_name: str
+
+class Ask(BaseModel):
+    messages: list[Message]
 
 @app.get("/api/health")
 async def health_check():
@@ -63,10 +66,10 @@ async def analyze_pitch(hz: float):
          return {"note": None}
     return result
 
-@app.get("/api/teacher/ask")
-async def invoke_llm(query: str) -> dict:
-    reply = ask_teacher(query)
-    return {'reply': reply}
+@app.post("/api/llm/ask")
+async def ask(request: Ask) -> Ask:
+    results = ask_llm(request.messages)
+    return Ask(messages=results)
 
 # Serve static files (Frontend)
 use_static = os.path.isdir("backend/static") or os.path.isdir("static")
