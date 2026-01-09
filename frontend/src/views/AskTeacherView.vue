@@ -117,15 +117,16 @@ onMounted(() => {
 .teacher-view {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    height: calc(100vh - 250px);
-    min-height: 500px;
+    gap: 1rem;
+    height: calc(100vh - 180px);
+    min-height: 600px;
 }
 
 .info-header {
     background: var(--color-quaternary);
-    h2 { margin: 0; font-family: var(--font-heading); font-size: 2rem; }
-    p { margin: 0.5rem 0 0; }
+    padding: 0.75rem 1.5rem;
+    h2 { margin: 0; font-family: var(--font-heading); font-size: 1.5rem; }
+    p { margin: 0; font-size: 0.9rem; }
 }
 
 .chat-container {
