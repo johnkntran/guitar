@@ -4,7 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 import os
+from analyzer import identify_pitch
 from chords import identify_chord, get_chord_notes, NOTES, CHORD_DEFINITIONS
+from llm import ask_teacher
 
 app = FastAPI()
 
@@ -54,14 +56,17 @@ async def get_chord_composition(chord_name: str):
         raise HTTPException(status_code=404, detail="Chord not found")
     return {"notes": notes}
 
-from analyzer import identify_pitch
-
 @app.get("/api/tuner/analyze")
 async def analyze_pitch(hz: float):
     result = identify_pitch(hz)
     if not result:
          return {"note": None}
     return result
+
+@app.get("/api/teacher/ask")
+async def invoke_llm(query: str) -> dict:
+    reply = ask_teacher(query)
+    return {'reply': reply}
 
 # Serve static files (Frontend)
 use_static = os.path.isdir("backend/static") or os.path.isdir("static")
