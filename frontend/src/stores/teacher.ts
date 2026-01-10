@@ -10,7 +10,7 @@ export const useTeacherStore = defineStore('teacher', () => {
     const messages = ref<Message[]>([
         {
             role: 'system',
-            content: 'You are a professor of music theory. Frame your responses in the context of answering a guitar student.'
+            content: 'If the user asks to generate lyrics for a song, assume the persona of a record producer and songwriter. Otherwise, assume the persona of a music theory professor and frame your responses for a guitar student.'
         }
     ])
 
