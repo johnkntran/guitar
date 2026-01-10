@@ -8,6 +8,10 @@ const router = createRouter({
     routes: [
         {
             path: '/',
+            redirect: '/analyzer'
+        },
+        {
+            path: '/analyzer',
             name: 'analyzer',
             component: AnalyzerView
         },

@@ -617,6 +617,27 @@ Changes:
 
 The application has been rebuilt and the persistent chat feature is now live.
 
+----------------------------------------------------------------------
 
+I'd like to improve the routing experience. Right now, reloading the browser on one of the non-root pages (such as `/tuner`) or navigating freshly to it from outside the SPA results in a 404, presumably because this route is being handled by FastAPI and Vue.js has not had a chance to mount the SPA. I'd like to fix this so that freshly navigating to `/tuner` or `/ask` correctly gets intercepted and/or handled by the Vue Router instead of FastAPI. I'd like to also make the Analyzer page have a dedicated route, such that navigating to the default root path `/` redirects to the `/analyzer` route and renders the Analyzer view.
+
+----------------------------------------------------------------------
+
+I have improved the routing experience to support direct navigation and browser refreshes on all pages.
+
+Key Enhancements:
+
+1.  SPA Routing Fix (Backend):
+    - Updated `backend/main.py` with a catch-all route that serves `index.html` for any path not matching an API endpoint or static asset.
+    - This ensures that refreshing the page on /tuner or /ask no longer results in a FastAPI 404, allowing the Vue Router to take over gracefully.
+
+2. Dedicated Analyzer Route (Frontend):
+    - Updated the Vue Router in `router/index.ts` to include an explicit /analyzer route.
+    - Configured a redirect so that navigating to the root path (/) automatically takes you to /analyzer.
+
+3. Navigation Sync:
+    - Updated the navigation link in `App.vue` to point to /analyzer so the "active" styling correctly highlights the current view.
+
+The application has been rebuilt and is ready for use! You can now freely refresh your browser on any page.
 
 ----------------------------------------------------------------------

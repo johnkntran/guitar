@@ -7,7 +7,7 @@ import { RouterView, RouterLink } from 'vue-router'
     <header class="neo-box header">
       <h1>CHORD<br>COORDINATOR</h1>
       <nav class="nav-bar">
-        <RouterLink to="/" class="nav-link" active-class="active">ANALYZER</RouterLink>
+        <RouterLink to="/analyzer" class="nav-link" active-class="active">ANALYZER</RouterLink>
         <RouterLink to="/tuner" class="nav-link" active-class="active">TUNER</RouterLink>
         <RouterLink to="/ask" class="nav-link" active-class="active">TEACHER</RouterLink>
       </nav>

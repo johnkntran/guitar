@@ -76,7 +76,25 @@ use_static = os.path.isdir("backend/static") or os.path.isdir("static")
 static_dir = "backend/static" if os.path.isdir("backend/static") else "static"
 
 if use_static:
-    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
+    from fastapi.responses import FileResponse
+
+    # Serve assets folder
+    assets_dir = os.path.join(static_dir, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    # Serve specific root-level static files
+    @app.get("/vite.svg")
+    async def serve_vite_icon():
+        return FileResponse(os.path.join(static_dir, "vite.svg"))
+
+    # Catch-all route to serve index.html for SPA routing
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        index_path = os.path.join(static_dir, "index.html")
+        if os.path.isfile(index_path):
+            return FileResponse(index_path)
+        raise HTTPException(status_code=404, detail="Static files not found")
 
 if __name__ == "__main__":
     import uvicorn
