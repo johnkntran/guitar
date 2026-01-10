@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import { ref, nextTick, onMounted } from 'vue'
 import { marked } from 'marked'
+import { useTeacherStore, type Message } from '../stores/teacher'
 
-interface Message {
-    role: 'system' | 'user' | 'assistant'
-    content: string
-}
-
-const messages = ref<Message[]>([
-    {
-        role: 'system',
-        content: 'You are a professor of music theory. Frame your responses in the context of answering a guitar student.'
-    }
-])
+const teacherStore = useTeacherStore()
 
 const userInput = ref('')
 const isLoading = ref(false)
@@ -35,7 +26,7 @@ const sendMessage = async () => {
     if (!userInput.value.trim() || isLoading.value) return
 
     const userMessage = userInput.value.trim()
-    messages.value.push({ role: 'user', content: userMessage })
+    teacherStore.addMessage({ role: 'user', content: userMessage })
     userInput.value = ''
     isLoading.value = true
 
@@ -45,7 +36,7 @@ const sendMessage = async () => {
         const response = await fetch('/api/llm/ask', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages: messages.value })
+            body: JSON.stringify({ messages: teacherStore.messages })
         })
 
         if (!response.ok) throw new Error('Network response was not ok')
@@ -59,7 +50,7 @@ const sendMessage = async () => {
                 console.error('LLM Error:', lastMessage.content)
                 alert('LLM Error: There was an issue processing your request. Please check the console for details.')
             } else {
-                messages.value = updatedMessages
+                teacherStore.setMessages(updatedMessages)
             }
         }
     } catch (error) {
@@ -88,7 +79,7 @@ onMounted(() => {
     </div>
 
     <div class="chat-container neo-box" ref="chatContainer">
-        <div v-for="(msg, index) in messages" :key="index">
+        <div v-for="(msg, index) in teacherStore.messages" :key="index">
             <div v-if="msg.role !== 'system'" :class="['message', msg.role]">
                 <div class="message-label">{{ msg.role.toUpperCase() }}</div>
                 <div class="message-bubble" v-html="renderMarkdown(msg.content)"></div>
