@@ -562,4 +562,15 @@ Strumming Effect: Added a strum() method that plays the selected notes sequentia
 Analyzer Update: Added a "STRUM CHORD" button that appears whenever you have notes selected on the fretboard.
 Give it a try—select a chord and click the button to hear it!
 
+I have moved the "Strum" button from the results area into the Controls component.
+
+Changes:
+Repositioned: The "STRUM 🎸" button is now located immediately to the left of the "RESET BOARD" button.
+Contextual Visibility: It remains visible only when notes are selected on the fretboard.
+Cleaned Up: Removed all strumming logic and imports from
+
+AnalyzerView.vue
+ to maintain a clean architecture.
+The frontend has been rebuilt and is ready for use!
+
 ----------------------------------------------------------------------

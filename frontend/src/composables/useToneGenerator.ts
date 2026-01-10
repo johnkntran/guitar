@@ -89,7 +89,7 @@ export function useToneGenerator() {
     function strum(frequencies: number[]) {
         initContext()
         const ctx = audioContext.value!
-        const strumDelay = 0.05 // 50ms per string
+        const strumDelay = 0.1 // 100ms per string
 
         frequencies.forEach((hz, index) => {
             const startTime = ctx.currentTime + (index * strumDelay)

@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { useGuitarStore } from '../stores/guitar'
 import { ref, onMounted, watch } from 'vue'
+import { useToneGenerator } from '../composables/useToneGenerator'
 
 const store = useGuitarStore()
+const { strum } = useToneGenerator()
+
 const availableChords = ref<string[]>([])
 const selectedChordName = ref('')
+
+const STRING_MIDI_BASES = [40, 45, 50, 55, 59, 64] // E2, A2, D3, G3, B3, E4
 
 onMounted(async () => {
   try {
@@ -39,6 +44,21 @@ function handleReset() {
     selectedChordName.value = ''
     store.reset()
 }
+
+function handleStrum() {
+    if (store.selectedPositions.length === 0) return
+
+    // Calculate frequencies for all selected positions
+    const frequencies = store.selectedPositions
+        .map(p => {
+            const baseMidi = STRING_MIDI_BASES[p.string] ?? 40
+            const midiNote = baseMidi + p.fret
+            return 440 * Math.pow(2, (midiNote - 69) / 12)
+        })
+        .sort((a, b) => a - b) // Strum from low to high
+
+    strum(frequencies)
+}
 </script>
 
 <template>
@@ -53,7 +73,16 @@ function handleReset() {
         </div>
     </div>
 
-    <button @click="handleReset" class="neo-button reset-btn">RESET BOARD</button>
+    <div class="actions">
+        <button
+            v-if="store.selectedPositions.length > 0"
+            @click="handleStrum"
+            class="neo-button strum-btn"
+        >
+            STRUM 🎸
+        </button>
+        <button @click="handleReset" class="neo-button reset-btn">RESET BOARD</button>
+    </div>
   </div>
 </template>
 
@@ -102,6 +131,17 @@ function handleReset() {
         transform: translateY(-50%);
         pointer-events: none;
     }
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.strum-btn {
+    background: var(--color-primary);
+    color: white;
 }
 
 .reset-btn {
