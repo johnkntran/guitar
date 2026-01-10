@@ -93,6 +93,12 @@ function handleStrum() {
     align-items: flex-end;
     flex-wrap: wrap;
     background: var(--color-box);
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+    }
 }
 
 .control-group {
@@ -121,6 +127,10 @@ function handleStrum() {
         font-size: 1rem;
         width: 200px;
         cursor: pointer;
+
+        @media (max-width: 600px) {
+            width: 100%;
+        }
     }
 
     &::after {
@@ -137,6 +147,10 @@ function handleStrum() {
     display: flex;
     gap: 1rem;
     align-items: flex-end;
+
+    @media (max-width: 600px) {
+        justify-content: flex-end;
+    }
 }
 
 .strum-btn {

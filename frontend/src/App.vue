@@ -27,6 +27,11 @@ import { RouterView, RouterLink } from 'vue-router'
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (max-width: 600px) {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
 }
 
 .header {
@@ -34,8 +39,14 @@ import { RouterView, RouterLink } from 'vue-router'
   justify-content: space-between;
   align-items: center;
   background: var(--color-quaternary);
-  flex-wrap: wrap; /* Handle mobile */
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.5rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
   h1 {
     margin: 0;
@@ -43,12 +54,26 @@ import { RouterView, RouterLink } from 'vue-router'
     font-size: 3rem;
     text-transform: uppercase;
     font-family: var(--font-heading);
+    word-break: break-all;
+
+    @media (max-width: 600px) {
+      font-size: 2.2rem;
+    }
+    @media (max-width: 400px) {
+      font-size: 1.8rem;
+    }
   }
 }
 
 .nav-bar {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 600px) {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
 
 .nav-link {
@@ -59,6 +84,18 @@ import { RouterView, RouterLink } from 'vue-router'
     padding: 0.5rem 1rem;
     border: var(--border-width) solid transparent;
     transition: all 0.2s;
+    white-space: nowrap;
+
+    @media (max-width: 600px) {
+        font-size: 1.2rem;
+        padding: 0.4rem 0.8rem;
+        flex: 1;
+        text-align: center;
+    }
+
+    @media (max-width: 400px) {
+        font-size: 1rem;
+    }
 
     &:hover {
         background: rgba(255,255,255,0.2);

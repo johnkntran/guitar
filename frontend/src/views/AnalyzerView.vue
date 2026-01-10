@@ -42,7 +42,14 @@ const store = useGuitarStore()
     .result {
         background: var(--color-tertiary);
         color: #000000;
-        h2 { margin: 0; font-size: 2rem; font-family: var(--font-heading); }
+        h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-family: var(--font-heading);
+            @media (max-width: 600px) {
+                font-size: 1.5rem;
+            }
+        }
         &.warning {
             background: var(--color-secondary);
             color: white;

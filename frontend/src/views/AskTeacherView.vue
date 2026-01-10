@@ -144,6 +144,10 @@ onMounted(() => {
     flex-direction: column;
     max-width: 85%;
 
+    @media (max-width: 600px) {
+        max-width: 95%;
+    }
+
     &.user {
         align-self: flex-end;
         .message-bubble {
@@ -202,6 +206,11 @@ onMounted(() => {
     padding: 1rem;
     background: var(--color-tertiary);
 
+    @media (max-width: 600px) {
+        gap: 0.5rem;
+        padding: 0.75rem;
+    }
+
     textarea {
         flex: 1;
         border: 2px solid var(--color-border);
@@ -217,6 +226,9 @@ onMounted(() => {
     button {
         padding: 0 2rem;
         height: 60px;
+        @media (max-width: 600px) {
+            padding: 0 1rem;
+        }
     }
 }
 

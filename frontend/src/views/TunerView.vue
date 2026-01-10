@@ -173,11 +173,20 @@ function toggleMic() {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    gap: 1rem;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
     h2 {
         margin: 0;
         font-family: var(--font-heading);
         font-size: 2rem;
+        @media (max-width: 600px) {
+            font-size: 1.5rem;
+        }
     }
 }
 
@@ -215,6 +224,10 @@ function toggleMic() {
     margin: 0;
     line-height: 1;
     color: var(--color-text);
+
+    @media (max-width: 600px) {
+        font-size: 3.5rem;
+    }
 
     &.in-tune {
         color: var(--color-tertiary); /* Green when in tune! */
