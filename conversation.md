@@ -577,6 +577,8 @@ The frontend has been rebuilt and is ready for use!
 
 It looks like we have a styling responsiveness problem on mobile. The "Chord Coordinator" title text slightly overflows out of its containing element. The navigation links severely overflows out of the containing navigation element. Perhaps we should stack the nav links vertically or think of implementing a hamburger menu for mobile? Perhaps we could also just shrink the title text slightly so it fits inside the container?
 
+[App Mock Up](./extras/overflow-problem-on-mobile.jpeg)
+
 ----------------------------------------------------------------------
 
 I have implemented comprehensive mobile responsiveness updates across the application to fix the styling issues you reported.
