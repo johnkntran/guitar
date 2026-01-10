@@ -548,3 +548,18 @@ Navigation: Added a "TEACHER" link to the main navigation (routing to /ask).
 The frontend has been rebuilt and is ready for use! You can now ask the teacher musical questions about guitar and theory.
 
 ----------------------------------------------------------------------
+
+I'd love to add a "Strum" button to the `AnalyzerView.vue` page. The "Strum" button should play a sound using the device's built-in speaker that mimics a guitar strum with the selected notes. This might involve reusing or refactoring the `useToneGenerator.ts` composable to support multi-tone generation.
+
+----------------------------------------------------------------------
+
+Strum functionality is live! 🎸
+
+I've updated the Analyzer view and the audio logic:
+
+Polyphonic Audio: Refactored useToneGenerator.ts to support playing multiple notes at once.
+Strumming Effect: Added a strum() method that plays the selected notes sequentially from lowest to highest string with a 50ms delay, mimicking a real guitar strum.
+Analyzer Update: Added a "STRUM CHORD" button that appears whenever you have notes selected on the fretboard.
+Give it a try—select a chord and click the button to hear it!
+
+----------------------------------------------------------------------
