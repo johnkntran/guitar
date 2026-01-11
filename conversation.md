@@ -771,8 +771,24 @@ The app is now fully optimized for your next jam session, whether you're at home
 
 ----------------------------------------------------------------------
 
+I have implemented the Interactive Circle of Fifths feature! ☸️🎸
 
+Key Features:
+
+1. Rotatable SVG Wheel: A custom-built, interactive wheel that displays all twelve Major keys and their relative minors. You can click any segment or the arrows to rotate the wheel and select a key.
+
+2. Harmonic Context: When a key is selected, the app highlights its neighbors in the circle and displays detailed information about its key signature (number of sharps or flats).
+
+3. "Ask Teacher" Integration: Each selected key features an "ASK TEACHER 🎓" button. Clicking this will instantly take you to the Teacher view with a pre-filled prompt asking for the chords and theory behind that specific key.
+
+4. Responsive Design: The wheel and info cards are fully optimized for both desktop and mobile devices, maintaining the app's signature neobrutalist aesthetic.
+
+5. Clean Routing: Added a dedicated /circle route and updated the main navigation for seamless access.
+
+The application has been rebuilt with these updates. You can find the new CIRCLE link in the navigation bar!
 
 ----------------------------------------------------------------------
+
+
 
 ----------------------------------------------------------------------
