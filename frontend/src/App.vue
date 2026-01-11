@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { RouterView, RouterLink } from 'vue-router'
+import Metronome from './components/Metronome.vue'
 </script>
 
 <template>
   <div class="app-container">
     <header class="neo-box header">
-      <h1>CHORD<br>COORDINATOR</h1>
+      <div class="header-main">
+          <h1>CHORD<br>COORDINATOR</h1>
+          <Metronome />
+      </div>
       <nav class="nav-bar">
         <RouterLink to="/analyzer" class="nav-link" active-class="active">ANALYZER</RouterLink>
         <RouterLink to="/tuner" class="nav-link" active-class="active">TUNER</RouterLink>
@@ -47,7 +51,19 @@ import { RouterView, RouterLink } from 'vue-router'
 
   @media (max-width: 600px) {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+  }
+
+  .header-main {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+
+      @media (max-width: 600px) {
+          justify-content: space-between;
+          width: 100%;
+      }
   }
 
   h1 {

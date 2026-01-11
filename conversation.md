@@ -855,3 +855,23 @@ Key Features:
 The app has been rebuilt and is ready for you to start soloing! 🤘🎸
 
 ----------------------------------------------------------------------
+
+I have implemented the Built-in Metronome! 🥁⏱️
+
+The metronome is now always available in the app header, allowing you to maintain your timing while using the Analyzer, Tuner, or soloing with the Scale Explorer.
+
+Key Features:
+
+1. High-Precision Audio: Built using the Web Audio API with a lookahead scheduler. This ensures rock-solid timing that won't drift, even if the browser is busy rendering complex UI updates.
+
+2. Visual "Beat Flash": A synchronized indicator pulse accompanies every beat, providing a clear visual cue for your tempo.
+
+3. Adjustable BPM: Easily set your target tempo (40–300 BPM). The app remembers your last used BPM between sessions using local storage.
+
+4. Accented Beats: The metronome uses a higher-pitched "click" on the first beat of every four, helping you stay oriented within the measure.
+
+5. Always Accessible: Integrated directly into the main header next to the logo, so it never gets in the way of your practice session.
+
+The application has been rebuilt with this new feature. Let me know if you'd like any other adjustments! 🤘🎸
+
+----------------------------------------------------------------------
