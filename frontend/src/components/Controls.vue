@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGuitarStore } from '../stores/guitar'
+import { useGuitarStore, TUNINGS } from '../stores/guitar'
 import { ref, onMounted, watch } from 'vue'
 import { useToneGenerator } from '../composables/useToneGenerator'
 
@@ -8,8 +8,6 @@ const { strum } = useToneGenerator()
 
 const availableChords = ref<string[]>([])
 const selectedChordName = ref('')
-
-const STRING_MIDI_BASES = [40, 45, 50, 55, 59, 64] // E2, A2, D3, G3, B3, E4
 
 onMounted(async () => {
   try {
@@ -51,7 +49,7 @@ function handleStrum() {
     // Calculate frequencies for all selected positions
     const frequencies = store.selectedPositions
         .map(p => {
-            const baseMidi = STRING_MIDI_BASES[p.string] ?? 40
+            const baseMidi = store.currentTuning.midiBases[p.string] ?? 40
             const midiNote = baseMidi + p.fret
             return 440 * Math.pow(2, (midiNote - 69) / 12)
         })
@@ -63,6 +61,15 @@ function handleStrum() {
 
 <template>
   <div class="controls neo-box">
+    <div class="control-group">
+        <label>GUITAR TUNING</label>
+        <div class="select-wrapper">
+            <select :value="store.currentTuning.name" @change="(e: any) => store.setTuning(TUNINGS[e.target.value]!)">
+                <option v-for="t in TUNINGS" :key="t.name" :value="t.name">{{ t.name }}</option>
+            </select>
+        </div>
+    </div>
+
     <div class="control-group">
         <label>REVERSE LOOKUP</label>
         <div class="select-wrapper">

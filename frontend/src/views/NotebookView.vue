@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNotebookStore, type FavoriteChord } from '../stores/notebook'
-import { useGuitarStore } from '../stores/guitar'
+import { useGuitarStore, TUNINGS } from '../stores/guitar'
 import { useRouter } from 'vue-router'
 
 const notebook = useNotebookStore()
@@ -8,6 +8,11 @@ const guitarStore = useGuitarStore()
 const router = useRouter()
 
 function restoreFavorite(favorite: FavoriteChord) {
+    // Set tuning if it exists in favorite
+    if (favorite.tuningName && TUNINGS[favorite.tuningName]) {
+        guitarStore.setTuning(TUNINGS[favorite.tuningName]!)
+    }
+
     guitarStore.selectedPositions = JSON.parse(JSON.stringify(favorite.positions))
     guitarStore.identify()
     router.push('/analyzer')
@@ -28,7 +33,7 @@ function formatDate(timestamp: number) {
   <div class="notebook-view">
     <div class="header neo-box">
         <h2>CHORD NOTEBOOK</h2>
-        <p>Your collection of saved voicings and shapes.</p>
+        <p>Your collection of saved voicings and shapes. Now supporting alternative tunings!</p>
     </div>
 
     <div class="empty-state neo-box" v-if="notebook.favorites.length === 0">
@@ -45,7 +50,10 @@ function formatDate(timestamp: number) {
                     class="name-input"
                     @blur="notebook.updateCustomName(fav.id, fav.customName || '')"
                 >
-                <button class="delete-btn" @click="deleteFavorite(fav.id)">🗑️</button>
+                <div class="header-actions">
+                    <span class="tuning-tag" v-if="fav.tuningName">{{ fav.tuningName }}</span>
+                    <button class="delete-btn" @click="deleteFavorite(fav.id)">🗑️</button>
+                </div>
             </div>
 
             <div class="chord-info">
@@ -107,6 +115,21 @@ function formatDate(timestamp: number) {
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tuning-tag {
+    background: var(--color-quaternary);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    border: 1px solid black;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .name-input {

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { useGuitarStore } from '../stores/guitar'
+import { ref, watch, computed } from 'vue'
 import { useAudioAnalyzer } from '../composables/useAudioAnalyzer'
 import { useToneGenerator } from '../composables/useToneGenerator'
 
 const { isListening, currentHz, startListening, stopListening } = useAudioAnalyzer()
 const { playTone, currentToneHz, isPlaying } = useToneGenerator()
+const store = useGuitarStore()
 
 interface TunerResult {
     note: string
@@ -19,14 +21,18 @@ const tunerData = ref<TunerResult | null>(null)
 const lastFetch = ref(0)
 const needleAngle = ref(0)
 
-const TUNING_NOTES = [
-    { name: 'E2', hz: 82.41 },
-    { name: 'A2', hz: 110.00 },
-    { name: 'D3', hz: 146.83 },
-    { name: 'G3', hz: 196.00 },
-    { name: 'B3', hz: 246.94 },
-    { name: 'E4', hz: 329.63 }
-]
+const TUNING_NOTES = computed(() => {
+    const chromatic = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    return store.currentTuning.midiBases.map((midi) => {
+        const noteName = chromatic[midi % 12]!
+        const octave = Math.floor(midi / 12) - 1
+        const hz = 440 * Math.pow(2, (midi - 69) / 12)
+        return {
+            name: `${noteName}${octave}`,
+            hz
+        }
+    })
+})
 
 // Create a throttled/debounced fetch
 watch(currentHz, async (newHz) => {

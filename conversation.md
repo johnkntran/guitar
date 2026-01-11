@@ -810,3 +810,26 @@ Restore to Board: Click "RESTORE TO BOARD" on any card to instantly load that ch
 The app has been rebuilt, and you'll find the new NOTEBOOK tab in the main navigation. Happy saving! 🎸
 
 ----------------------------------------------------------------------
+
+I have implemented Alternative Tunings Support across the entire application! 🎸🔧
+
+Key Enhancements:
+
+1. Dynamic Tuning Engine: The app now supports Standard, Drop D, DADGAD, and Open G tunings.
+
+2. Global Synchronization: Changing the tuning in the "Analyzer" view instantly updates:
+  - The Fretboard: Note labels on every fret and string automatically recalculate.
+  - The Strummer: The base frequencies used for the virtual strum match the new tuning.
+  - The Tuner: The manual tuning reference buttons (E2, A2, etc.) update to the notes of the selected tuning.
+
+3. Smart Notebook Integration:
+
+  - Tuning Persistence: When you favorite a chord, the current tuning is saved alongside it.
+  - Visual Tags: Favorite cards in your Notebook now display a tag (e.g., "DADGAD") showing which tuning they belong to.
+  - Intelligent Restore: Clicking "RESTORE TO BOARD" in the Notebook will automatically switch the app to the correct tuning for that chord voicing.
+
+4. UI Updates: Added a sleek "GUITAR TUNING" selector to the Controls panel, consistent with our Neobrutalist design.
+
+The application has been rebuilt and is ready for some Drop D or DADGAD experimentation! 🤘
+
+----------------------------------------------------------------------

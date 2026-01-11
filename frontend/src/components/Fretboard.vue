@@ -135,10 +135,8 @@ function getNoteMeta(stringIdx: number, fret: number) {
     const selected = store.selectedPositions.find(p => p.string === stringIdx && p.fret === fret)
 
     const chromatic = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-    const openNotes = ['E', 'A', 'D', 'G', 'B', 'E']
-    const openNoteName = openNotes[stringIdx] || 'E'
-    const openNoteIdx = chromatic.indexOf(openNoteName)
-    const noteIdx = (openNoteIdx + fret) % 12
+    const baseMidi = store.currentTuning.midiBases[stringIdx] ?? 40
+    const noteIdx = (baseMidi + fret) % 12
     const noteName = chromatic[noteIdx] || 'C'
 
     const isSelected = !!selected

@@ -5,6 +5,7 @@ export interface FavoriteChord {
     id: string
     name: string
     customName?: string
+    tuningName: string
     positions: Array<{
         string: number
         fret: number
@@ -23,11 +24,12 @@ export const useNotebookStore = defineStore('notebook', () => {
         localStorage.setItem('chord_coordinator_favorites', JSON.stringify(newVal))
     }, { deep: true })
 
-    function addFavorite(name: string, positions: FavoriteChord['positions']) {
+    function addFavorite(name: string, positions: FavoriteChord['positions'], tuningName: string) {
         const id = crypto.randomUUID()
         favorites.value.push({
             id,
             name,
+            tuningName,
             positions: JSON.parse(JSON.stringify(positions)), // Deep copy
             createdAt: Date.now()
         })
@@ -47,21 +49,21 @@ export const useNotebookStore = defineStore('notebook', () => {
         }
     }
 
-    function isFavorited(positions: FavoriteChord['positions']) {
-        // Simple heuristic: same set of string/fret pairs
+    function isFavorited(positions: FavoriteChord['positions'], tuningName: string) {
+        // Simple heuristic: same set of string/fret pairs AND same tuning
         const posString = (pos: FavoriteChord['positions']) =>
             pos.map(p => `${p.string}-${p.fret}`).sort().join('|')
 
         const currentString = posString(positions)
-        return favorites.value.some(f => posString(f.positions) === currentString)
+        return favorites.value.some(f => f.tuningName === tuningName && posString(f.positions) === currentString)
     }
 
-    function getFavoriteIdByPositions(positions: FavoriteChord['positions']) {
+    function getFavoriteIdByPositions(positions: FavoriteChord['positions'], tuningName: string) {
         const posString = (pos: FavoriteChord['positions']) =>
             pos.map(p => `${p.string}-${p.fret}`).sort().join('|')
 
         const currentString = posString(positions)
-        return favorites.value.find(f => posString(f.positions) === currentString)?.id
+        return favorites.value.find(f => f.tuningName === tuningName && posString(f.positions) === currentString)?.id
     }
 
     return {

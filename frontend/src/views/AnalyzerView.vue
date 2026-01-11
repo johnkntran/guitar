@@ -10,11 +10,12 @@ const notebook = useNotebookStore()
 function toggleFavorite() {
     if (!store.currentChord?.primary) return
 
-    if (notebook.isFavorited(store.selectedPositions)) {
-        const id = notebook.getFavoriteIdByPositions(store.selectedPositions)
+    const tuningName = store.currentTuning.name
+    if (notebook.isFavorited(store.selectedPositions, tuningName)) {
+        const id = notebook.getFavoriteIdByPositions(store.selectedPositions, tuningName)
         if (id) notebook.removeFavorite(id)
     } else {
-        notebook.addFavorite(store.currentChord.primary.name, store.selectedPositions)
+        notebook.addFavorite(store.currentChord.primary.name, store.selectedPositions, tuningName)
     }
 }
 </script>
@@ -31,11 +32,11 @@ function toggleFavorite() {
                 <h2>{{ store.currentChord.primary?.name }}</h2>
                 <button
                    class="favorite-btn"
-                   :class="{ active: notebook.isFavorited(store.selectedPositions) }"
+                   :class="{ active: notebook.isFavorited(store.selectedPositions, store.currentTuning.name) }"
                    @click="toggleFavorite"
                    title="Add to Notebook"
                 >
-                    {{ notebook.isFavorited(store.selectedPositions) ? '❤️' : '🤍' }}
+                    {{ notebook.isFavorited(store.selectedPositions, store.currentTuning.name) ? '❤️' : '🤍' }}
                 </button>
             </div>
             <p v-if="store.currentChord.alternatives?.length">

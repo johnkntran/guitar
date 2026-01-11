@@ -22,17 +22,34 @@ interface ChordResult {
     message: string
 }
 
-const STRINGS = ['E', 'A', 'D', 'G', 'B', 'E'] // Low to High (indices 0-5)
 const CHROMATIC = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
+export interface Tuning {
+    name: string
+    midiBases: number[] // 6 values, low E string to high E string
+}
+
+export const TUNINGS: Record<string, Tuning> = {
+    'Standard': { name: 'Standard', midiBases: [40, 45, 50, 55, 59, 64] },
+    'Drop D': { name: 'Drop D', midiBases: [38, 45, 50, 55, 59, 64] },
+    'Double Drop D': { name: 'Double Drop D', midiBases: [38, 45, 50, 55, 59, 62] },
+    'Open D': { name: 'Open D', midiBases: [38, 45, 50, 54, 57, 62] },
+    'DADGAD': { name: 'DADGAD', midiBases: [38, 45, 50, 55, 57, 62] },
+    'Open G': { name: 'Open G', midiBases: [38, 43, 50, 55, 59, 62] },
+}
 
 export const useGuitarStore = defineStore('guitar', () => {
     const selectedPositions = ref<NoteSelection[]>([])
     const currentChord = ref<ChordResult | null>(null)
+    const currentTuning = ref<Tuning>(TUNINGS['Standard']!)
 
     const reverseLookupMode = ref(false)
     const targetNotes = ref<string[]>([])
 
     // Computed
+    const stringsLabels = computed(() => {
+        return currentTuning.value.midiBases.map(midi => CHROMATIC[midi % 12]!)
+    })
     const selectedNotes = computed(() => {
         // Sort by string (low E is index 0) and then fret?
         // Actually pitch matters for chord id.
@@ -72,11 +89,10 @@ export const useGuitarStore = defineStore('guitar', () => {
             }
 
             // Calculate note name
-            // String open note
-            const openNoteName = STRINGS[stringIdx] || 'E'
-            const openNoteIdx = CHROMATIC.indexOf(openNoteName)
+            // String base midi
+            const baseMidi = currentTuning.value.midiBases[stringIdx] ?? 40
             // fret offset
-            const noteIdx = (openNoteIdx + fretIdx) % 12
+            const noteIdx = (baseMidi + fretIdx) % 12
             const noteName = CHROMATIC[noteIdx] || 'C'
 
             selectedPositions.value.push({
@@ -151,6 +167,20 @@ export const useGuitarStore = defineStore('guitar', () => {
         reverseLookupMode.value = false
     }
 
+    function setTuning(tuning: Tuning) {
+        currentTuning.value = tuning
+        // Re-calculate all selected notes based on new tuning
+        selectedPositions.value = selectedPositions.value.map(pos => {
+            const baseMidi = tuning.midiBases[pos.string] ?? 40
+            const noteIdx = (baseMidi + pos.fret) % 12
+            return {
+                ...pos,
+                note: CHROMATIC[noteIdx]!
+            }
+        })
+        identify()
+    }
+
 
 
     return {
@@ -159,6 +189,9 @@ export const useGuitarStore = defineStore('guitar', () => {
         togglePosition,
         reset,
         identify,
+        currentTuning,
+        setTuning,
+        stringsLabels,
 
         reverseLookup,
         reverseLookupMode,
