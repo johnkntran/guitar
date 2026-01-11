@@ -789,6 +789,24 @@ The application has been rebuilt with these updates. You can find the new CIRCLE
 
 ----------------------------------------------------------------------
 
+I have implemented the Chord Notebook (Favorites) feature! 📓❤️
 
+Key Features:
+
+1. localStorage Persistence: Your saved chords are stored directly in your browser's local storage. This means your "Notebook" will be waiting for you even if you close the app or restart your device.
+
+2. One-Click "Favorite": Added a heart 🤍 icon next to the chord name in the Analyzer. Clicking it saves the exact fretboard voicing to your Notebook immediately.
+
+3. Dedicated Notebook View: A new page where you can manage your collection:
+Rename Chords: Give your voicings custom names like "Jazzy Cmaj7" or "Opening Chord for New Song".
+
+4. Delete: Clean up unwanted shapes with a single click.
+Restore to Board: Click "RESTORE TO BOARD" on any card to instantly load that chord back onto the main fretboard for further analysis or strumming.
+
+5. Voicing Tags: Each card in the notebook displays a compact summary of the fingering (e.g., S6: F3 (G)) for quick reference without needing to load the full board.
+
+6. Neobrutalist UI: The notebook uses a clean grid of high-contrast cards that perfectly matches the app's aesthetic.
+
+The app has been rebuilt, and you'll find the new NOTEBOOK tab in the main navigation. Happy saving! 🎸
 
 ----------------------------------------------------------------------

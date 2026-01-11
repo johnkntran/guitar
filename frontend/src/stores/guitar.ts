@@ -158,6 +158,7 @@ export const useGuitarStore = defineStore('guitar', () => {
         currentChord,
         togglePosition,
         reset,
+        identify,
 
         reverseLookup,
         reverseLookupMode,
