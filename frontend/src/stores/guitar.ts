@@ -33,9 +33,17 @@ export const TUNINGS: Record<string, Tuning> = {
     'Standard': { name: 'Standard', midiBases: [40, 45, 50, 55, 59, 64] },
     'Drop D': { name: 'Drop D', midiBases: [38, 45, 50, 55, 59, 64] },
     'Double Drop D': { name: 'Double Drop D', midiBases: [38, 45, 50, 55, 59, 62] },
-    'Open D': { name: 'Open D', midiBases: [38, 45, 50, 54, 57, 62] },
     'DADGAD': { name: 'DADGAD', midiBases: [38, 45, 50, 55, 57, 62] },
     'Open G': { name: 'Open G', midiBases: [38, 43, 50, 55, 59, 62] },
+    'Open D': { name: 'Open D', midiBases: [38, 45, 50, 54, 57, 62] },
+}
+
+export const SCALE_TYPES = {
+    'Major': [0, 2, 4, 5, 7, 9, 11],
+    'Minor': [0, 2, 3, 5, 7, 8, 10],
+    'Major Pentatonic': [0, 2, 4, 7, 9],
+    'Minor Pentatonic': [0, 3, 5, 7, 10],
+    'Blues': [0, 3, 5, 6, 7, 10],
 }
 
 export const useGuitarStore = defineStore('guitar', () => {
@@ -43,10 +51,22 @@ export const useGuitarStore = defineStore('guitar', () => {
     const currentChord = ref<ChordResult | null>(null)
     const currentTuning = ref<Tuning>(TUNINGS['Standard']!)
 
+    // Scale Explorer State
+    const isScaleEnabled = ref(false)
+    const selectedScaleRoot = ref('C')
+    const selectedScaleType = ref<keyof typeof SCALE_TYPES>('Major')
+
     const reverseLookupMode = ref(false)
     const targetNotes = ref<string[]>([])
 
     // Computed
+    const scaleNotes = computed(() => {
+        if (!isScaleEnabled.value) return []
+        const rootIdx = CHROMATIC.indexOf(selectedScaleRoot.value)
+        const intervals = SCALE_TYPES[selectedScaleType.value]
+        return intervals.map(interval => CHROMATIC[(rootIdx + interval) % 12]!)
+    })
+
     const stringsLabels = computed(() => {
         return currentTuning.value.midiBases.map(midi => CHROMATIC[midi % 12]!)
     })
@@ -192,6 +212,12 @@ export const useGuitarStore = defineStore('guitar', () => {
         currentTuning,
         setTuning,
         stringsLabels,
+
+        isScaleEnabled,
+        selectedScaleRoot,
+        selectedScaleType,
+        scaleNotes,
+        CHROMATIC,
 
         reverseLookup,
         reverseLookupMode,

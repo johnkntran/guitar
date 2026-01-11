@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGuitarStore, TUNINGS } from '../stores/guitar'
+import { useGuitarStore, TUNINGS, SCALE_TYPES } from '../stores/guitar'
 import { ref, onMounted, watch } from 'vue'
 import { useToneGenerator } from '../composables/useToneGenerator'
 
@@ -33,6 +33,9 @@ watch(() => store.currentChord, (newVal) => {
     }
 })
 
+// Sync Scale Root with identified chord root if scale is enabled but no root selected?
+// Actually, it's better to let user pick.
+
 function handleReverseLookup() {
     if(!selectedChordName.value) return
     store.reverseLookup(selectedChordName.value)
@@ -57,6 +60,8 @@ function handleStrum() {
 
     strum(frequencies)
 }
+
+const scaleTypesList = Object.keys(SCALE_TYPES) as (keyof typeof SCALE_TYPES)[]
 </script>
 
 <template>
@@ -67,6 +72,38 @@ function handleStrum() {
             <select :value="store.currentTuning.name" @change="(e: any) => store.setTuning(TUNINGS[e.target.value]!)">
                 <option v-for="t in TUNINGS" :key="t.name" :value="t.name">{{ t.name }}</option>
             </select>
+        </div>
+    </div>
+
+    <div class="scale-explorer-container">
+        <div class="control-group">
+            <label>SCALE EXPLORER</label>
+            <button
+                class="neo-button toggle-btn"
+                :class="{ active: store.isScaleEnabled }"
+                @click="store.isScaleEnabled = !store.isScaleEnabled"
+            >
+                {{ store.isScaleEnabled ? 'ON' : 'OFF' }}
+            </button>
+        </div>
+
+        <div class="scale-subset" v-if="store.isScaleEnabled">
+            <div class="control-group">
+                <label>ROOT</label>
+                <div class="select-wrapper mini">
+                    <select v-model="store.selectedScaleRoot">
+                        <option v-for="n in store.CHROMATIC" :key="n" :value="n">{{ n }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label>TYPE</label>
+                <div class="select-wrapper">
+                    <select v-model="store.selectedScaleType">
+                        <option v-for="t in scaleTypesList" :key="t" :value="t">{{ t }}</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -125,6 +162,10 @@ function handleStrum() {
     background: var(--color-box);
     box-shadow: 4px 4px 0 var(--color-border);
 
+    &.mini {
+        select { width: 80px; }
+    }
+
     select {
         appearance: none;
         border: none;
@@ -147,6 +188,28 @@ function handleStrum() {
         top: 50%;
         transform: translateY(-50%);
         pointer-events: none;
+    }
+}
+
+.scale-explorer-container {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    padding: 0.5rem;
+    border: 2px dashed var(--color-border);
+    border-radius: 4px;
+
+    .scale-subset {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+.toggle-btn {
+    padding: 0.5rem 1rem;
+    &.active {
+        background: var(--color-primary);
+        color: white;
     }
 }
 

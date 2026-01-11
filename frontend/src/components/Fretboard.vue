@@ -140,6 +140,8 @@ function getNoteMeta(stringIdx: number, fret: number) {
     const noteName = chromatic[noteIdx] || 'C'
 
     const isSelected = !!selected
+    const isScaleNote = store.isScaleEnabled && store.scaleNotes.includes(noteName)
+    const isScaleRoot = store.isScaleEnabled && noteName === store.selectedScaleRoot
 
     let isWatermarked = false
     if (store.reverseLookupMode) {
@@ -172,6 +174,8 @@ function getNoteMeta(stringIdx: number, fret: number) {
         noteName,
         isSelected,
         isWatermarked,
+        isScaleNote,
+        isScaleRoot,
         color,
         opacity
     }
@@ -231,6 +235,18 @@ function isStringMuted(stringIdx: number) {
 
             <!-- Click Targets & Notes -->
             <g v-for="f in frets" :key="`note-${sIdx}-${f}`">
+                <!-- Scale Overlay -->
+                <circle
+                    v-if="getNoteMeta(sIdx, f).isScaleNote && !getNoteMeta(sIdx, f).isSelected"
+                    :cx="getNoteCoords(sIdx, f, i).cx"
+                    :cy="getNoteCoords(sIdx, f, i).cy"
+                    r="10"
+                    fill="white"
+                    :stroke="getNoteMeta(sIdx, f).isScaleRoot ? 'var(--color-primary)' : '#999'"
+                    :stroke-width="getNoteMeta(sIdx, f).isScaleRoot ? 4 : 2"
+                    pointer-events="none"
+                />
+
                 <circle
                     :cx="getNoteCoords(sIdx, f, i).cx"
                     :cy="getNoteCoords(sIdx, f, i).cy"
@@ -244,12 +260,12 @@ function isStringMuted(stringIdx: number) {
                 />
 
                 <text
-                    v-if="getNoteMeta(sIdx, f).isSelected || getNoteMeta(sIdx, f).isWatermarked"
+                    v-if="getNoteMeta(sIdx, f).isSelected || getNoteMeta(sIdx, f).isWatermarked || (getNoteMeta(sIdx, f).isScaleNote && !isVertical)"
                     :x="getNoteCoords(sIdx, f, i).x"
                     :y="getNoteCoords(sIdx, f, i).y + 5"
                     text-anchor="middle"
                     fill="black"
-                    font-size="12"
+                    :font-size="getNoteMeta(sIdx, f).isSelected ? 12 : 10"
                     font-weight="bold"
                     pointer-events="none"
                 >

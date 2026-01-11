@@ -833,3 +833,25 @@ Key Enhancements:
 The application has been rebuilt and is ready for some Drop D or DADGAD experimentation! 🤘
 
 ----------------------------------------------------------------------
+
+I have implemented the Scale Explorer feature! 🎸✨
+
+This addition turns the Chord Analyzer into a complete soloing companion. You can now overlay common scales directly onto the fretboard to see how they interact with your chord voicings.
+
+Key Features:
+
+1. Diverse Scale Support: Includes Major, Minor, Major Pentatonic, Minor Pentatonic, and Blues scales.
+
+2. Contextual Overlay: Toggle the "SCALE EXPLORER" in the Controls panel to see the scale notes appear as subtle hollow circles across the fretboard.
+  - Scale Root (Tonic): The root of the scale is highlighted with a thicker border to help you find your "home" note.
+  - Note Labels: Scale notes include small pitch labels (C, D#, etc.) to help you learn the fretboard as you solo.
+
+3. Contextual "Ask Teacher" Integration 👨‍🏫:
+  - Added a new Professor button next to the chord name in the Analyzer.
+  - When you click it, the app automatically generates a theory-heavy prompt for the Teacher. For example: "How does this C Major chord relate to the C Major Pentatonic scale, and what are some soloing ideas?"
+
+4. Full Tuning Support: The scale overlays automatically adjust when you switch between Standard, Drop D, DADGAD, and other tunings.
+
+The app has been rebuilt and is ready for you to start soloing! 🤘🎸
+
+----------------------------------------------------------------------
