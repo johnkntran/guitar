@@ -22,14 +22,9 @@ const scrollToBottom = async () => {
     }
 }
 
-const sendMessage = async () => {
-    if (!userInput.value.trim() || isLoading.value) return
-
-    const userMessage = userInput.value.trim()
-    teacherStore.addMessage({ role: 'user', content: userMessage })
-    userInput.value = ''
+const getAssistantResponse = async () => {
+    if (isLoading.value) return
     isLoading.value = true
-
     await scrollToBottom()
 
     try {
@@ -62,12 +57,28 @@ const sendMessage = async () => {
     }
 }
 
+const sendMessage = async () => {
+    const userMessage = userInput.value.trim()
+    if (!userMessage || isLoading.value) return
+
+    teacherStore.addMessage({ role: 'user', content: userMessage })
+    userInput.value = ''
+
+    await getAssistantResponse()
+}
+
 const renderMarkdown = (content: string) => {
     return marked.parse(content)
 }
 
 onMounted(() => {
     scrollToBottom()
+
+    // Auto-trigger if we arrived with a pending user message
+    const lastMsg = teacherStore.messages[teacherStore.messages.length - 1]
+    if (lastMsg && lastMsg.role === 'user') {
+        getAssistantResponse()
+    }
 })
 </script>
 
