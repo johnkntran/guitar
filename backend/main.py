@@ -87,6 +87,10 @@ if use_static:
     @app.get("/vite.svg")
     async def serve_vite_icon():
         return FileResponse(os.path.join(static_dir, "vite.svg"))
+    
+    @app.get("/icon-192.png")
+    async def serve_favicon():
+        return FileResponse(os.path.join(static_dir, "icon-192.png"))
 
     # Catch-all route to serve index.html for SPA routing
     @app.get("/{full_path:path}")
