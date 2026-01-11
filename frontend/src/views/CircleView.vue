@@ -99,7 +99,7 @@ async function askTeacher() {
                 <span v-else>NATURAL (NO ACCIDENTALS)</span>
             </div>
             <p class="description" v-if="selectedKey">
-                This key is neighboring {{ FIFTHS[(selectedIdx + 11) % 12]!.major }} and {{ FIFTHS[(selectedIdx + 1) % 12]!.major }} in the circle.
+                This key is neighboring {{ FIFTHS[(selectedIdx + 11) % 12]?.major || '' }} and {{ FIFTHS[(selectedIdx + 1) % 12]?.major || '' }} in the circle.
             </p>
         </div>
     </div>

@@ -41,7 +41,7 @@ function askTeacher() {
         prompt += "What scales would work well for soloing over this, and can you explain the theory behind it?"
     }
 
-    teacherStore.messages.push({
+    teacherStore.addMessage({
         role: 'user',
         content: prompt
     })

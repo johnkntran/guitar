@@ -8,9 +8,10 @@ const guitarStore = useGuitarStore()
 const router = useRouter()
 
 function restoreFavorite(favorite: FavoriteChord) {
-    // Set tuning if it exists in favorite
-    if (favorite.tuningName && TUNINGS[favorite.tuningName]) {
-        guitarStore.setTuning(TUNINGS[favorite.tuningName]!)
+    // Set tuning if it exists in favorite and is known in TUNINGS
+    const tuning = favorite.tuningName ? TUNINGS[favorite.tuningName] : undefined
+    if (tuning) {
+        guitarStore.setTuning(tuning)
     }
 
     guitarStore.selectedPositions = JSON.parse(JSON.stringify(favorite.positions))

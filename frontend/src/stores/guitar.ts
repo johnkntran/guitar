@@ -68,7 +68,7 @@ export const useGuitarStore = defineStore('guitar', () => {
     })
 
     const stringsLabels = computed(() => {
-        return currentTuning.value.midiBases.map(midi => CHROMATIC[midi % 12]!)
+        return currentTuning.value.midiBases.map(midi => CHROMATIC[midi % 12] ?? 'C')
     })
     const selectedNotes = computed(() => {
         // Sort by string (low E is index 0) and then fret?
@@ -195,7 +195,7 @@ export const useGuitarStore = defineStore('guitar', () => {
             const noteIdx = (baseMidi + pos.fret) % 12
             return {
                 ...pos,
-                note: CHROMATIC[noteIdx]!
+                note: CHROMATIC[noteIdx] ?? 'C'
             }
         })
         identify()

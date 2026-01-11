@@ -24,7 +24,7 @@ const needleAngle = ref(0)
 const TUNING_NOTES = computed(() => {
     const chromatic = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     return store.currentTuning.midiBases.map((midi) => {
-        const noteName = chromatic[midi % 12]!
+        const noteName = chromatic[midi % 12] ?? 'C'
         const octave = Math.floor(midi / 12) - 1
         const hz = 440 * Math.pow(2, (midi - 69) / 12)
         return {
