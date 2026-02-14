@@ -922,3 +922,23 @@ I'm now adding VitePWA({ registerType: 'autoUpdate' }) to the plugins in fronten
 The PWA issue was a regression, resolved by re-enabling vite-plugin-pwa. It appears I am done.
 
 I have implemented Ukulele support! You can now switch to Ukulele tunings (Standard, Baritone, etc.) in the Controls panel. The fretboard and tuner will automatically adapt to the 4-string layout. Check out the walkthrough for details.
+
+----------------------------------------------------------------------
+
+Can you simply remove PWS support from this app entirely?
+
+----------------------------------------------------------------------
+
+PWA support has been removed from the application. 🧹📱
+
+Updates:
+Service Worker: Removed the service-worker registration from
+main.ts
+, preventing the app from attempting to cache itself or install offline.
+Configuration: Removed vite-plugin-pwa from
+vite.config.ts
+, so no manifest or service worker files will be generated during the build.
+Types: Cleaned up PWA type definitions from the environment file.
+The app is now a standard, lightweight web application. The build has been verified and is clean! ✅
+
+----------------------------------------------------------------------
