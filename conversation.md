@@ -932,13 +932,28 @@ Can you simply remove PWS support from this app entirely?
 PWA support has been removed from the application. 🧹📱
 
 Updates:
-Service Worker: Removed the service-worker registration from
-main.ts
-, preventing the app from attempting to cache itself or install offline.
-Configuration: Removed vite-plugin-pwa from
-vite.config.ts
-, so no manifest or service worker files will be generated during the build.
-Types: Cleaned up PWA type definitions from the environment file.
-The app is now a standard, lightweight web application. The build has been verified and is clean! ✅
+
+- Service Worker: Removed the service-worker registration from
+main.ts, preventing the app from attempting to cache itself or install offline.
+- Configuration: Removed vite-plugin-pwa from vite.config.ts, so no manifest or service worker files will be generated during the build.
+- Types: Cleaned up PWA type definitions from the environment file. The app is now a standard, lightweight web application. The build has been verified and is clean! ✅
+
+----------------------------------------------------------------------
+
+For the guitar side of the app, let's add support for the "All Fourths" alternative tuning (E–A–D–G–C–F).
+
+----------------------------------------------------------------------
+
+I have added support for the "All Fourths" guitar tuning (E–A–D–G–C–F). 🎸✨
+
+This tuning uses perfect fourths between all strings, eliminating the major third interval found in standard tuning between the G and B strings. This makes scale shapes and chord patterns identical across the entire fretboard.
+
+Updates:
+
+- Added All Fourths to the TUNINGS list in
+guitar.ts with the correct MIDI base values: [40, 45, 50, 55, 60, 65].
+- The application has been rebuilt, and you can now select this tuning from the "GUITAR" section in the tuning dropdown.
+
+Let me know if you need any other tunings added! 🤘
 
 ----------------------------------------------------------------------
