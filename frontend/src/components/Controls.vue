@@ -61,16 +61,28 @@ function handleStrum() {
     strum(frequencies)
 }
 
+const guitarTunings = Object.values(TUNINGS).filter(t => t.instrument !== 'ukulele')
+const ukuleleTunings = Object.values(TUNINGS).filter(t => t.instrument === 'ukulele')
+
+// Sort tuning lists? Optional. They come from object values order.
+// Let's rely on definition order or sort by name if needed.
+// TUNINGS definition order is preserved in ES2015+.
+
 const scaleTypesList = Object.keys(SCALE_TYPES) as (keyof typeof SCALE_TYPES)[]
 </script>
 
 <template>
   <div class="controls neo-box">
     <div class="control-group">
-        <label>GUITAR TUNING</label>
+        <label>TUNING</label>
         <div class="select-wrapper">
             <select :value="store.currentTuning.name" @change="(e: any) => store.setTuning(TUNINGS[e.target.value]!)">
-                <option v-for="t in TUNINGS" :key="t.name" :value="t.name">{{ t.name }}</option>
+                <optgroup label="GUITAR">
+                    <option v-for="t in guitarTunings" :key="t.name" :value="t.name">{{ t.name }}</option>
+                </optgroup>
+                <optgroup label="UKULELE">
+                    <option v-for="t in ukuleleTunings" :key="t.name" :value="t.name">{{ t.name }}</option>
+                </optgroup>
             </select>
         </div>
     </div>

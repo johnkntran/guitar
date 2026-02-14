@@ -26,18 +26,29 @@ const CHROMATIC = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "
 
 export interface Tuning {
     name: string
-    midiBases: number[] // 6 values, low E string to high E string
+    midiBases: number[] // 6 values for guitar, 4 for ukulele
+    instrument: 'guitar' | 'ukulele'
 }
 
 export const TUNINGS: Record<string, Tuning> = {
-    'Standard': { name: 'Standard', midiBases: [40, 45, 50, 55, 59, 64] },
-    'Drop D': { name: 'Drop D', midiBases: [38, 45, 50, 55, 59, 64] },
-    'Double Drop D': { name: 'Double Drop D', midiBases: [38, 45, 50, 55, 59, 62] },
-    'DADGAD': { name: 'DADGAD', midiBases: [38, 45, 50, 55, 57, 62] },
-    'Open G': { name: 'Open G', midiBases: [38, 43, 50, 55, 59, 62] },
-    'Open D': { name: 'Open D', midiBases: [38, 45, 50, 54, 57, 62] },
-}
+    // Guitar Tunings
+    'Standard': { name: 'Standard', midiBases: [40, 45, 50, 55, 59, 64], instrument: 'guitar' },
+    'Drop D': { name: 'Drop D', midiBases: [38, 45, 50, 55, 59, 64], instrument: 'guitar' },
+    'Double Drop D': { name: 'Double Drop D', midiBases: [38, 45, 50, 55, 59, 62], instrument: 'guitar' },
+    'DADGAD': { name: 'DADGAD', midiBases: [38, 45, 50, 55, 57, 62], instrument: 'guitar' },
+    'Open G': { name: 'Open G', midiBases: [38, 43, 50, 55, 59, 62], instrument: 'guitar' },
+    'Open D': { name: 'Open D', midiBases: [38, 45, 50, 54, 57, 62], instrument: 'guitar' },
 
+    // Ukulele Tunings
+    // Standard High G (gCEA): [67, 60, 64, 69]
+    'Ukulele - Standard': { name: 'Ukulele - Standard', midiBases: [67, 60, 64, 69], instrument: 'ukulele' },
+    'Ukulele - Baritone': { name: 'Ukulele - Baritone', midiBases: [50, 55, 59, 64], instrument: 'ukulele' },
+    'Ukulele - Open C': { name: 'Ukulele - Open C', midiBases: [55, 60, 64, 67], instrument: 'ukulele' },
+    'Ukulele - Open D': { name: 'Ukulele - Open D', midiBases: [57, 62, 66, 69], instrument: 'ukulele' },
+    'Ukulele - Open G': { name: 'Ukulele - Open G', midiBases: [55, 59, 62, 67], instrument: 'ukulele' },
+    'Ukulele - C Minor': { name: 'Ukulele - C Minor', midiBases: [55, 60, 63, 67], instrument: 'ukulele' },
+    'Ukulele - A Minor': { name: 'Ukulele - A Minor', midiBases: [57, 64, 69, 72], instrument: 'ukulele' },
+}
 export const SCALE_TYPES = {
     'Major': [0, 2, 4, 5, 7, 9, 11],
     'Minor': [0, 2, 3, 5, 7, 8, 10],
