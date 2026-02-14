@@ -38,6 +38,7 @@ export const TUNINGS: Record<string, Tuning> = {
     'DADGAD': { name: 'DADGAD', midiBases: [38, 45, 50, 55, 57, 62], instrument: 'guitar' },
     'Open G': { name: 'Open G', midiBases: [38, 43, 50, 55, 59, 62], instrument: 'guitar' },
     'Open D': { name: 'Open D', midiBases: [38, 45, 50, 54, 57, 62], instrument: 'guitar' },
+    'All Fourths': { name: 'All Fourths', midiBases: [40, 45, 50, 55, 60, 65], instrument: 'guitar' },
 
     // Ukulele Tunings
     // Standard High G (gCEA): [67, 60, 64, 69]
