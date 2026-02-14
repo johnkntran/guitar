@@ -4,9 +4,16 @@ import { computed, ref, onMounted, onUnmounted } from 'vue'
 
 const store = useGuitarStore()
 
-// 6 Strings, 15 Frets
-// String Index 0 = Low E. String Index 5 = High E.
-const stringIndices = [5, 4, 3, 2, 1, 0] // Top to Bottom visual in Horizontal
+// Strings computed from tuning
+// Guitar: [5, 4, 3, 2, 1, 0] (High E to Low E)
+// Ukulele: [3, 2, 1, 0] (High A to G)
+const stringIndices = computed(() => {
+    const count = store.currentTuning.midiBases.length
+    // We want to render from highest index (High pitch visual top) to lowest (Low pitch visual bottom)
+    // for horizontal view.
+    return Array.from({ length: count }, (_, i) => count - 1 - i)
+})
+
 const fretCount = 15
 const frets = Array.from({ length: fretCount + 1 }, (_, i) => i) // 0-15
 
@@ -34,13 +41,27 @@ onUnmounted(() => {
     window.removeEventListener('resize', checkOrientation)
 })
 
+// Layout helpers
+const STRING_SPACING = 32
+// Calculate board dimension based on string count
+const boardThickness = computed(() => {
+    const strings = store.currentTuning.midiBases.length
+    // Margin Top (30) + Spacing * (strings - 1) + Margin Bottom (30)
+    return 30 + (strings - 1) * STRING_SPACING + 30
+})
+
 // Layout Computeds
-const viewBox = computed(() => isVertical.value ? "0 0 220 1000" : "0 0 1000 220")
+const viewBox = computed(() => {
+    if (isVertical.value) {
+        return `0 0 ${boardThickness.value} 1000`
+    } else {
+        return `0 0 1000 ${boardThickness.value}`
+    }
+})
 
 // Coordinate Helpers
 const NUT_SIZE = 10
 const FRET_WIDTH = 60
-const STRING_SPACING = 32
 const MARGIN_NUT = 50
 const MARGIN_STRING = 30
 
