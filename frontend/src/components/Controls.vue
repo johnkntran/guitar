@@ -49,14 +49,16 @@ function handleReset() {
 function handleStrum() {
     if (store.selectedPositions.length === 0) return
 
+    // Sort by string index (physical position usually top to bottom)
+    const sortedPositions = [...store.selectedPositions].sort((a, b) => a.string - b.string)
+
     // Calculate frequencies for all selected positions
-    const frequencies = store.selectedPositions
+    const frequencies = sortedPositions
         .map(p => {
             const baseMidi = store.currentTuning.midiBases[p.string] ?? 40
             const midiNote = baseMidi + p.fret
             return 440 * Math.pow(2, (midiNote - 69) / 12)
         })
-        .sort((a, b) => a - b) // Strum from low to high
 
     strum(frequencies)
 }
